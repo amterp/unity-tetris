@@ -8,9 +8,9 @@ public class GameCell : MonoBehaviour
 
     public Coordinate Coordinate { get; private set; }
 
-    public void InitializeCoordinate(int x, int y, float originX, float originY)
+    public void InitCoordinate(Coordinate coordinate)
     {
-        Coordinate = new Coordinate(x, y, originX, originY, transform);
-        Coordinate.UpdateTransform();
+        if (Coordinate != null) throw new InvalidOperationException("Can only add a coordinate once!");
+        Coordinate = coordinate;
     }
 }

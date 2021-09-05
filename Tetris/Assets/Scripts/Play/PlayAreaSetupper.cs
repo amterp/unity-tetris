@@ -21,6 +21,7 @@ public class PlayAreaSetupper : MonoBehaviour
             {
                 GameCell gameCell = GameObject.Instantiate<GameObject>(GameCellPrefab).GetComponent<GameCell>();
                 gameCell.transform.localScale = _dimensions.GetCellScale();
+                Debug.Log(gameCell.transform.localScale + " = " + _dimensions.GetCellScale());
                 gameCell.InitCoordinate(_dimensions.CreateCoordinate(x, y, gameCell.transform));
                 cellsByCoordinate.Add(gameCell.Coordinate, gameCell);
             }

@@ -19,20 +19,19 @@ public class BlockFactory : MonoBehaviour
         Dictionary<Coordinate, BlockPiece> piecesByCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
         BlockPiece topLeftPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        topLeftPiece.Initialize(BlockType.Square, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 0, topLeftPiece.transform), topLeftPiece);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 0), topLeftPiece);
 
         BlockPiece topRightPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        topRightPiece.Initialize(BlockType.Square, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 0, topRightPiece.transform), topRightPiece);
+        topRightPiece.Initialize(BlockType.Square);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 0), topRightPiece);
 
         BlockPiece bottomLeftPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        bottomLeftPiece.Initialize(BlockType.Square, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1, bottomLeftPiece.transform), bottomLeftPiece);
+        bottomLeftPiece.Initialize(BlockType.Square);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1), bottomLeftPiece);
 
         BlockPiece bottomRightPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        bottomRightPiece.Initialize(BlockType.Square, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 1, bottomRightPiece.transform), bottomRightPiece);
+        bottomRightPiece.Initialize(BlockType.Square);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 1), bottomRightPiece);
 
         return new Block(BlockType.Square, piecesByCoordinate);
     }
@@ -42,20 +41,20 @@ public class BlockFactory : MonoBehaviour
         Dictionary<Coordinate, BlockPiece> piecesByCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
         BlockPiece topPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        topPiece.Initialize(BlockType.L, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 0, topPiece.transform), topPiece);
+        topPiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 0), topPiece);
 
         BlockPiece middlePiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        middlePiece.Initialize(BlockType.L, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1, middlePiece.transform), middlePiece);
+        middlePiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1), middlePiece);
 
         BlockPiece bottomPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        bottomPiece.Initialize(BlockType.L, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 2, bottomPiece.transform), bottomPiece);
+        bottomPiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 2), bottomPiece);
 
         BlockPiece bottomRightPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        bottomRightPiece.Initialize(BlockType.L, _dimensions.GetCellScale());
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 2, bottomRightPiece.transform), bottomRightPiece);
+        bottomRightPiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 2), bottomRightPiece);
 
         return new Block(BlockType.L, piecesByCoordinate);
     }

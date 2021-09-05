@@ -14,7 +14,7 @@ public class DimensionsHandler : MonoBehaviour
     private float _originX;
     private float _originY;
 
-    void Start()
+    void Awake()
     {
 
         XScale = transform.localScale.x / NumberXCells;
@@ -28,6 +28,11 @@ public class DimensionsHandler : MonoBehaviour
     public Vector3 GetCellScale()
     {
         return CellScale;
+    }
+
+    public Coordinate CreateCoordinate(int x, int y)
+    {
+        return CreateCoordinate(x, y, null);
     }
 
     public Coordinate CreateCoordinate(int x, int y, Transform underlyingTransform)

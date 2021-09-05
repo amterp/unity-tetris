@@ -12,45 +12,32 @@ public class BlockPiece : MonoBehaviour
     public Color ZBlockColor;
 
     private BlockType? _blockType;
-    private SpriteRenderer _spriteRenderer;
 
-    public void Initialize(BlockType blockType, Vector3 cellScale)
+    public void Initialize(BlockType blockType)
     {
         if (_blockType != null) throw new InvalidOperationException("Can only init block pieces once!");
 
         _blockType = blockType;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        transform.localScale = cellScale;
-
-        UpdateRender();
     }
 
-    public void UpdateRender()
+    public Color GetColor()
     {
-        Color color;
         switch (_blockType)
         {
             case BlockType.Line:
-                color = LineBlockColor;
-                break;
+                return LineBlockColor;
             case BlockType.L:
-                color = LBlockColor;
-                break;
+                return LBlockColor;
             case BlockType.J:
-                color = JBlockColor;
-                break;
+                return JBlockColor;
             case BlockType.Square:
-                color = SquareBlockColor;
-                break;
+                return SquareBlockColor;
             case BlockType.S:
-                color = SBlockColor;
-                break;
+                return SBlockColor;
             case BlockType.Z:
-                color = ZBlockColor;
-                break;
+                return ZBlockColor;
             default:
                 throw new InvalidOperationException("Unknown block type: " + _blockType);
         }
-        _spriteRenderer.color = color;
     }
 }

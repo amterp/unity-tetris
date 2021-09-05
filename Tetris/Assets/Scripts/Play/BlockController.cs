@@ -7,12 +7,14 @@ public class BlockController : MonoBehaviour
 {
 
     private IBlockSpawner _blockSpawner;
-    private Block _currentBlock;
+    private PlayAreaController _playAreaController;
+    private Block? _currentBlock;
 
     // Start is called before the first frame update
     void Start()
     {
         _blockSpawner = GetComponent<IBlockSpawner>();
+        _playAreaController = GetComponent<PlayAreaController>();
     }
 
     void Update()
@@ -20,10 +22,26 @@ public class BlockController : MonoBehaviour
         SpawnBlockIfNone();
     }
 
+    public void TryMove(int xShift, int yShift)
+    {
+        SpawnBlockIfNone();
+        _playAreaController.TryMove(_currentBlock, xShift, yShift);
+
+        if (_currentBlock.IsPlaced)
+        {
+            SpawnNewBlock();
+        }
+    }
+
     private void SpawnBlockIfNone()
     {
         if (_currentBlock != null) return;
+        SpawnNewBlock();
+    }
 
+    private void SpawnNewBlock()
+    {
         _currentBlock = _blockSpawner.GetNextBlock();
+        _playAreaController.AddBlock(_currentBlock);
     }
 }

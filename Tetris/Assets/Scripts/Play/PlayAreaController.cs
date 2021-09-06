@@ -14,11 +14,6 @@ public class PlayAreaController : MonoBehaviour
         _dimensions = GetComponent<DimensionsHandler>();
     }
 
-    void Update()
-    {
-
-    }
-
     public void AddBlock(Block currentBlock)
     {
         new List<Coordinate>(currentBlock.PiecesByCoordinate.Keys)
@@ -32,27 +27,41 @@ public class PlayAreaController : MonoBehaviour
             throw new InvalidOperationException("Cannot move diagonally!");
         }
 
-        bool canShift = CanShift(currentBlock, xShift, yShift);
+        BlockTransformation blockTransformation = currentBlock.CalculateLinearTransformation(xShift, yShift);
 
-        if (IsDownwardsMovement(yShift) && !canShift)
+        if (!IsValidPlacement(blockTransformation.Block, new List<Coordinate>(blockTransformation.OldToNewCoordinates.Values)))
         {
-            PlaceBlock(currentBlock);
+            if (IsDownwardsMovement(yShift))
+            {
+                PlaceBlock(currentBlock);
+            }
         }
-
-        if (canShift)
+        else if (blockTransformation.IsValid())
         {
-            ShiftBlock(currentBlock, xShift, yShift);
+            ShiftBlock(currentBlock, blockTransformation);
         }
     }
 
-    private void ShiftBlock(Block currentBlock, int xShift, int yShift)
+    public void TryRotate(Block currentBlock, RotationDirection rotationDirection)
     {
-        Dictionary<Coordinate, Coordinate> oldToShiftedCoordinateDict = currentBlock.CalculateShiftedCoordinates(xShift, yShift);
-        currentBlock.Shift(oldToShiftedCoordinateDict);
+        BlockTransformation blockTransformation =
+            currentBlock.CalculateRotatedCoordinates(currentBlock, rotationDirection, coordinates => IsValidPlacement(currentBlock, coordinates));
+        if (!blockTransformation.IsValid()) return;
+        currentBlock.PerformTransformation(blockTransformation);
+        UpdateCellTable(blockTransformation.OldToNewCoordinates);
+    }
 
+    private void ShiftBlock(Block currentBlock, BlockTransformation blockTransformation)
+    {
+        currentBlock.PerformTransformation(blockTransformation);
+        UpdateCellTable(blockTransformation.OldToNewCoordinates);
+    }
+
+    private void UpdateCellTable(Dictionary<Coordinate, Coordinate> oldToNewCoordinateDict)
+    {
         Dictionary<Coordinate, BlockPiece> piecesByNewCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
-        foreach (Coordinate oldCoordinate in oldToShiftedCoordinateDict.Keys)
+        foreach (Coordinate oldCoordinate in oldToNewCoordinateDict.Keys)
         {
             GameCell gameCellAtOldCoordinate = _cellsByCoordinate[oldCoordinate];
             BlockPiece? blockPieceToMove = gameCellAtOldCoordinate.BlockPiece;
@@ -60,7 +69,7 @@ public class PlayAreaController : MonoBehaviour
             if (blockPieceToMove == null) continue;
 
             gameCellAtOldCoordinate.BlockPiece = null;
-            piecesByNewCoordinate.Add(oldToShiftedCoordinateDict[oldCoordinate], blockPieceToMove);
+            piecesByNewCoordinate.Add(oldToNewCoordinateDict[oldCoordinate], blockPieceToMove);
         }
 
         foreach (Coordinate newCoordinate in piecesByNewCoordinate.Keys)
@@ -80,10 +89,9 @@ public class PlayAreaController : MonoBehaviour
         // todo run line-completion logic
     }
 
-    private bool CanShift(Block currentBlock, int xShift, int yShift)
+    private bool IsValidPlacement(Block currentBlock, List<Coordinate> potentialNewCoordinates)
     {
-        List<Coordinate> shiftedCoordinates = new List<Coordinate>(currentBlock.CalculateShiftedCoordinates(xShift, yShift).Values);
-        return AreWithinBounds(shiftedCoordinates) && CoordinatesAreOpen(currentBlock, shiftedCoordinates);
+        return AreWithinBounds(potentialNewCoordinates) && CoordinatesAreOpen(currentBlock, potentialNewCoordinates);
     }
 
     private bool AreWithinBounds(List<Coordinate> shiftedCoordinates)

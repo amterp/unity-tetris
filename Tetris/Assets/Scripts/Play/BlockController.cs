@@ -33,6 +33,12 @@ public class BlockController : MonoBehaviour
         }
     }
 
+    public void TryRotate(RotationDirection rotationDirection)
+    {
+        SpawnBlockIfNone();
+        _playAreaController.TryRotate(_currentBlock, rotationDirection);
+    }
+
     private void SpawnBlockIfNone()
     {
         if (_currentBlock != null) return;

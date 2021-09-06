@@ -40,21 +40,21 @@ public class BlockFactory : MonoBehaviour
     {
         Dictionary<Coordinate, BlockPiece> piecesByCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
-        BlockPiece topPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        topPiece.Initialize(BlockType.L);
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 0), topPiece);
+        BlockPiece leftPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
+        leftPiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1), leftPiece);
 
         BlockPiece middlePiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
         middlePiece.Initialize(BlockType.L);
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 1), middlePiece);
-
-        BlockPiece bottomPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
-        bottomPiece.Initialize(BlockType.L);
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(0, 2), bottomPiece);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 1), middlePiece);
 
         BlockPiece bottomRightPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
         bottomRightPiece.Initialize(BlockType.L);
-        piecesByCoordinate.Add(_dimensions.CreateCoordinate(1, 2), bottomRightPiece);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(2, 1), bottomRightPiece);
+
+        BlockPiece rightTopPiece = GameObject.Instantiate<GameObject>(BlockPiecePrefab).GetComponent<BlockPiece>();
+        rightTopPiece.Initialize(BlockType.L);
+        piecesByCoordinate.Add(_dimensions.CreateCoordinate(2, 0), rightTopPiece);
 
         return new Block(BlockType.L, piecesByCoordinate);
     }

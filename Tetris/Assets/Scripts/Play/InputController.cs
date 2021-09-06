@@ -35,5 +35,10 @@ public class InputController : MonoBehaviour
             _blockController.TryMove(0, 1);
             return;
         }
+        if (KeyBindingsChecker.InputUp())
+        {
+            _blockController.TryRotate(RotationDirection.Clockwise);
+            return;
+        }
     }
 }

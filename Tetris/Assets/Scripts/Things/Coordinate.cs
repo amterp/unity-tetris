@@ -74,6 +74,11 @@ public class Coordinate
         Transform.position = new Vector3(_originX + X * Transform.localScale.x, _originY - Y * Transform.localScale.y);
     }
 
+    public Vector2Int AsVector2Int()
+    {
+        return new Vector2Int(X, Y);
+    }
+
     public override string ToString()
     {
         return String.Format("C({0}, {1})", X, Y);

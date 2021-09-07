@@ -36,7 +36,7 @@ public class Block
         {
             oldToNewCoordinateDict.Add(currentCoordinate, currentCoordinate.Shifted(xShift, yShift));
         }
-        return new BlockTransformation(this, oldToNewCoordinateDict, new Vector2Int(xShift, yShift), _rotationState);
+        return new BlockTransformation(this, oldToNewCoordinateDict, new Vector2Int(xShift, yShift), null, _rotationState);
     }
 
     public BlockTransformation CalculateRotatedCoordinates(Block block,
@@ -50,7 +50,7 @@ public class Block
             Dictionary<Coordinate, Coordinate> translatedRotationResult = ApplyTranslation(translationToTest, originalRotationResult);
             if (validCoordinatesPredicate(new List<Coordinate>(translatedRotationResult.Values)))
             {
-                return new BlockTransformation(this, translatedRotationResult, translationToTest, rotationDirection.Rotate(_rotationState));
+                return new BlockTransformation(this, translatedRotationResult, translationToTest, rotationDirection, rotationDirection.Rotate(_rotationState));
             }
         }
         return BlockTransformation.INVALID_TRANSFORMATION;
@@ -70,7 +70,7 @@ public class Block
 
         PiecesByCoordinate = newPiecesByCoordinateDict;
         _pivotPosition += blockTransformation.LinearTranslation;
-        _rotationState = blockTransformation.NewRotationState;
+        _rotationState = blockTransformation.ResultingRotationState;
     }
 
     private Dictionary<Coordinate, Coordinate> CalculateInitialRotation(RotationDirection rotationDirection)

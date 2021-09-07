@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayAreaController : MonoBehaviour
 {
+
+    public event Action<BlockTransformation> BlockTransformationEvent;
+    public event Action BlockPlacedEvent;
+
     private Dictionary<Coordinate, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
 
@@ -49,12 +53,14 @@ public class PlayAreaController : MonoBehaviour
         if (!blockTransformation.IsValid()) return;
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation.OldToNewCoordinates);
+        EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
     private void ShiftBlock(Block currentBlock, BlockTransformation blockTransformation)
     {
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation.OldToNewCoordinates);
+        EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
     private void UpdateCellTable(Dictionary<Coordinate, Coordinate> oldToNewCoordinateDict)
@@ -87,6 +93,7 @@ public class PlayAreaController : MonoBehaviour
     {
         currentBlock.IsPlaced = true;
         // todo run line-completion logic
+        EventUtil.SafeInvoke(BlockPlacedEvent);
     }
 
     private bool IsValidPlacement(Block currentBlock, List<Coordinate> potentialNewCoordinates)

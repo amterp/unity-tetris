@@ -10,6 +10,7 @@ public class BlockPiece : MonoBehaviour
     public Color SquareBlockColor;
     public Color SBlockColor;
     public Color ZBlockColor;
+    public Color TBlockColor;
 
     private BlockType? _blockType;
 
@@ -36,6 +37,8 @@ public class BlockPiece : MonoBehaviour
                 return SBlockColor;
             case BlockType.Z:
                 return ZBlockColor;
+            case BlockType.T:
+                return TBlockColor;
             default:
                 throw new InvalidOperationException("Unknown block type: " + _blockType);
         }

@@ -15,22 +15,16 @@ public class BlockController : MonoBehaviour
         _blockSpawner = GetComponent<IBlockSpawner>();
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
-    }
-
-    void Update()
-    {
         SpawnBlockIfNone();
     }
 
     public void TryMove(int xShift, int yShift)
     {
-        SpawnBlockIfNone();
         _playAreaController.TryMove(_currentBlock, xShift, yShift);
     }
 
     public void TryRotate(RotationDirection rotationDirection)
     {
-        SpawnBlockIfNone();
         _playAreaController.TryRotate(_currentBlock, rotationDirection);
     }
 

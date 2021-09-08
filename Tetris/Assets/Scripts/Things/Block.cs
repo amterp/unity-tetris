@@ -8,19 +8,19 @@ public class Block
 {
     private static readonly Vector2Int NO_LINEAR_TRANSLATION = Vector2Int.zero;
 
+    public BlockType BlockType;
     public Dictionary<Coordinate, BlockPiece> PiecesByCoordinate;
     public bool IsPlaced;
 
-    private BlockType _blockType;
     private RotationState _rotationState;
     private Vector2 _pivotPosition;
 
     public Block(BlockType blockType, Dictionary<Coordinate, BlockPiece> piecesByCoordinate)
     {
-        _blockType = blockType;
+        BlockType = blockType;
         PiecesByCoordinate = piecesByCoordinate;
         _rotationState = RotationState.Zero;
-        _pivotPosition = _blockType.PivotOffset();
+        _pivotPosition = BlockType.PivotOffset();
     }
 
     public List<Coordinate> GetCoordinatesCopy()
@@ -44,7 +44,7 @@ public class Block
         Predicate<List<Coordinate>> validCoordinatesPredicate)
     {
         Dictionary<Coordinate, Coordinate> originalRotationResult = CalculateInitialRotation(rotationDirection);
-        List<Vector2Int> translationsToTest = _blockType.WallKickTestTranslations(_rotationState, rotationDirection);
+        List<Vector2Int> translationsToTest = BlockType.WallKickTestTranslations(_rotationState, rotationDirection);
         foreach (Vector2Int translationToTest in translationsToTest)
         {
             Dictionary<Coordinate, Coordinate> translatedRotationResult = ApplyTranslation(translationToTest, originalRotationResult);

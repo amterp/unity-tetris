@@ -136,12 +136,11 @@ GameObject:
   - component: {fileID: 118155881}
   - component: {fileID: 118155884}
   - component: {fileID: 118155886}
-  - component: {fileID: 118155885}
   - component: {fileID: 118155887}
   - component: {fileID: 118155888}
-  - component: {fileID: 118155889}
   - component: {fileID: 118155883}
   - component: {fileID: 118155890}
+  - component: {fileID: 118155885}
   m_Layer: 5
   m_Name: PlayArea
   m_TagString: Untagged
@@ -263,9 +262,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 118155879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ec7b04bb4118548adc7075e6f85f00, type: 3}
+  m_Script: {fileID: 11500000, guid: a98aa7f9e523e6b4a9b5a1b460cf7db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LineBlockWeight: 1
+  LBlockWeight: 1
+  JBlockWeight: 1
+  SquareBlockWeight: 1
+  SBlockWeight: 1
+  ZBlockWeight: 1
+  TBlockWeight: 1
 --- !u!114 &118155886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,18 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10401c97312a6a34db6b554f385096d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &118155889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118155879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6659a754805b2be45bde398d728f5157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  ShiftRepeatIntervalSeconds: 0.1
 --- !u!114 &118155890
 MonoBehaviour:
   m_ObjectHideFlags: 0

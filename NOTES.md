@@ -9,3 +9,4 @@
 - Square: Yellow
 - S: Green
 - Z: Red
+- T: Purple

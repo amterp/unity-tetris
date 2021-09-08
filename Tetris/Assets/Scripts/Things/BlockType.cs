@@ -21,19 +21,15 @@ static class BlockTypeMethods
         switch (blockType)
         {
             case BlockType.Line:
-                return new Vector2(1, 2);
-            case BlockType.L:
-                return new Vector2(1, 1);
-            case BlockType.J:
-                return new Vector2(0.5f, 1.5f); // todo not correct
+                return new Vector2(1.5f, 1.5f);
             case BlockType.Square:
-                return new Vector2(0.5f, 1.5f); // todo not correct
+                return new Vector2(0.5f, 0.5f);
+            case BlockType.L:
+            case BlockType.J:
             case BlockType.S:
-                return new Vector2(0.5f, 1.5f); // todo not correct
             case BlockType.Z:
-                return new Vector2(0.5f, 1.5f); // todo not correct
             case BlockType.T:
-                return new Vector2(0.5f, 1.5f); // todo not correct
+                return new Vector2(1, 1);
             default:
                 throw new InvalidOperationException("Unknown BlockType: " + blockType);
         }

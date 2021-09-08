@@ -7,17 +7,17 @@ public class KeyBindingsChecker
 {
     public static bool InputRight()
     {
-        return Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
+        return Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
     }
 
     public static bool InputLeft()
     {
-        return Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+        return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
     }
 
     public static bool InputDown()
     {
-        return Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
+        return Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
     }
 
     public static bool InputUp()

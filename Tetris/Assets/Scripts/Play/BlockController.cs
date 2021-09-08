@@ -28,6 +28,11 @@ public class BlockController : MonoBehaviour
         _playAreaController.TryRotate(_currentBlock, rotationDirection);
     }
 
+    public void InstantPlace()
+    {
+        _playAreaController.InstantPlace(_currentBlock);
+    }
+
     private void OnBlockPlaced()
     {
         SpawnNewBlock();

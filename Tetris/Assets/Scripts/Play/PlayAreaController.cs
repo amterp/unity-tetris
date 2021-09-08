@@ -56,6 +56,21 @@ public class PlayAreaController : MonoBehaviour
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
+    public void InstantPlace(Block currentBlock)
+    {
+        for (int cellDistance = _dimensions.NumberYCells; cellDistance >= 0; cellDistance--)
+        {
+            BlockTransformation blockTransformation = currentBlock.CalculateLinearTransformation(0, cellDistance);
+            if (blockTransformation.IsValid() && IsValidPlacement(blockTransformation.Block, new List<Coordinate>(blockTransformation.OldToNewCoordinates.Values)))
+            {
+                TryMove(currentBlock, 0, cellDistance);
+                PlaceBlock(currentBlock);
+                return;
+            }
+        }
+        throw new InvalidProgramException("Not yet handling what happens if cannot instant place.");
+    }
+
     private void ShiftBlock(Block currentBlock, BlockTransformation blockTransformation)
     {
         currentBlock.PerformTransformation(blockTransformation);

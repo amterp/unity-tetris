@@ -28,8 +28,17 @@ public class InputController : MonoBehaviour
 
     private void RunPlayerInput()
     {
+        RunInstantPlace();
         RunPlayerShift();
         RunPlayerRotation();
+    }
+
+    private void RunInstantPlace()
+    {
+        if (KeyBindingsChecker.InputSpace())
+        {
+            _blockController.InstantPlace();
+        }
     }
 
     private void RunPlayerShift()

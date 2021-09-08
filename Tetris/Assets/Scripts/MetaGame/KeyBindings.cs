@@ -24,4 +24,9 @@ public class KeyBindingsChecker
     {
         return Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
     }
+
+    public static bool InputSpace()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    }
 }

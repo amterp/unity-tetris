@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayAreaController : MonoBehaviour
 {
+    private const float NOT_USED = -1f;
 
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
@@ -107,8 +108,57 @@ public class PlayAreaController : MonoBehaviour
     private void PlaceBlock(Block currentBlock)
     {
         currentBlock.IsPlaced = true;
-        // todo run line-completion logic
+        CheckRowCompletion();
         EventUtil.SafeInvoke(BlockPlacedEvent);
+    }
+
+    private void CheckRowCompletion()
+    {
+        int numRowsComplete = 0;
+        for (int rowIndex = _dimensions.NumberYCells - 1; rowIndex >= 0; rowIndex--)
+        {
+            if (RowComplete(rowIndex))
+            {
+                DeleteRow(rowIndex);
+                numRowsComplete++;
+            }
+            else
+            {
+                ShiftDownRow(rowIndex, numRowsComplete);
+            }
+        }
+    }
+
+    private bool RowComplete(int rowIndex)
+    {
+        for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
+        {
+            if (_cellsByCoordinate[new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED)].IsEmpty())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void DeleteRow(int rowIndex)
+    {
+        for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
+        {
+            _cellsByCoordinate[new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED)].BlockPiece = null;
+        }
+    }
+
+    private void ShiftDownRow(int rowIndex, int yShiftAmount)
+    {
+        if (yShiftAmount == 0) return;
+        for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
+        {
+            Coordinate coordinateToMove = new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED);
+            Coordinate coordinateToMoveTo = new Coordinate(columnIndex, rowIndex + yShiftAmount, NOT_USED, NOT_USED);
+            _cellsByCoordinate[coordinateToMoveTo].BlockPiece = _cellsByCoordinate[coordinateToMove].BlockPiece;
+            _cellsByCoordinate[coordinateToMove].BlockPiece = null;
+        }
     }
 
     private bool IsValidPlacement(Block currentBlock, List<Coordinate> potentialNewCoordinates)

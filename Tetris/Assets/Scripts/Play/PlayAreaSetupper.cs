@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayAreaSetupper : MonoBehaviour
 {
+    public const int SPAWN_PILLOW_ROOM = -2;
+    private const int Y_INDEX_START = 0 + SPAWN_PILLOW_ROOM;
 
     public GameObject GameCellPrefab;
 
@@ -15,7 +17,7 @@ public class PlayAreaSetupper : MonoBehaviour
         _dimensions = GetComponent<DimensionsHandler>();
 
         Dictionary<Coordinate, GameCell> cellsByCoordinate = new Dictionary<Coordinate, GameCell>();
-        for (int y = 0; y < _dimensions.NumberYCells; y++)
+        for (int y = Y_INDEX_START; y < _dimensions.NumberYCells; y++)
         {
             for (int x = 0; x < _dimensions.NumberXCells; x++)
             {

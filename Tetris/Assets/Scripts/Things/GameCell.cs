@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameCell : MonoBehaviour
 {
 
+    public Color SpawnPillowRoomCellColor;
+
     public Coordinate Coordinate { get; private set; }
     public BlockPiece? BlockPiece { get { return _blockPiece; } set { _blockPiece = value; UpdateRender(); } }
 
@@ -19,14 +21,11 @@ public class GameCell : MonoBehaviour
         _defaultEmptyColor = _spriteRenderer.color;
     }
 
-    void Update()
-    {
-    }
-
     public void InitCoordinate(Coordinate coordinate)
     {
         if (Coordinate != null) throw new InvalidOperationException("Can only add a coordinate once!");
         Coordinate = coordinate;
+        UpdateRender();
     }
 
     public bool IsEmpty()
@@ -36,13 +35,22 @@ public class GameCell : MonoBehaviour
 
     private void UpdateRender()
     {
-        if (BlockPiece == null)
-        {
-            _spriteRenderer.color = _defaultEmptyColor;
-        }
-        else
+        if (BlockPiece != null)
         {
             _spriteRenderer.color = BlockPiece.GetColor();
         }
+        else if (IsSpawnPillowRoomCell())
+        {
+            _spriteRenderer.color = SpawnPillowRoomCellColor;
+        }
+        else if (BlockPiece == null)
+        {
+            _spriteRenderer.color = _defaultEmptyColor;
+        }
+    }
+
+    private bool IsSpawnPillowRoomCell()
+    {
+        return Coordinate.Y < 0;
     }
 }

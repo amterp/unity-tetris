@@ -96,4 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ab1813647b9444cabbe2b4b5366436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPiece: {fileID: 0}
+  SpawnPillowRoomCellColor: {r: 1, g: 0, b: 0, a: 0.27450982}

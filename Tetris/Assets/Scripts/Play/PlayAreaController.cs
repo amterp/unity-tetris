@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayAreaController : MonoBehaviour
 {
     private const float NOT_USED = -1f;
+    private const bool SUCCEEDED = true;
+    private const bool FAILED = false;
 
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
@@ -21,8 +23,8 @@ public class PlayAreaController : MonoBehaviour
 
     public void AddBlock(Block currentBlock)
     {
-        new List<Coordinate>(currentBlock.PiecesByCoordinate.Keys)
-            .ForEach(coordinate => _cellsByCoordinate[coordinate].BlockPiece = currentBlock.PiecesByCoordinate[coordinate]);
+        MoveBlockUpIfInitialSpawnHasNoRoom(currentBlock);
+        AddBlockToPlayArea(currentBlock);
     }
 
     public void TryMove(Block currentBlock, int xShift, int yShift)
@@ -70,6 +72,36 @@ public class PlayAreaController : MonoBehaviour
             }
         }
         throw new InvalidProgramException("Not yet handling what happens if cannot instant place.");
+    }
+
+    private void MoveBlockUpIfInitialSpawnHasNoRoom(Block currentBlock)
+    {
+        if (RowIndexIsEmpty(1))
+        {
+            return;
+        }
+        else if (RowIndexIsEmpty(0))
+        {
+            MoveYSpawnBy(-1, currentBlock);
+            return;
+        }
+        else
+        {
+            MoveYSpawnBy(-2, currentBlock);
+            return;
+        }
+    }
+
+    private void AddBlockToPlayArea(Block currentBlock)
+    {
+        new List<Coordinate>(currentBlock.PiecesByCoordinate.Keys)
+            .ForEach(coordinate => _cellsByCoordinate[coordinate].BlockPiece = currentBlock.PiecesByCoordinate[coordinate]);
+    }
+
+    private void MoveYSpawnBy(int yShift, Block currentBlock)
+    {
+        BlockTransformation shiftUpTransformation = currentBlock.CalculateLinearTransformation(0, yShift);
+        currentBlock.PerformTransformation(shiftUpTransformation);
     }
 
     private void ShiftBlock(Block currentBlock, BlockTransformation blockTransformation)
@@ -161,9 +193,9 @@ public class PlayAreaController : MonoBehaviour
         }
     }
 
-    private bool IsValidPlacement(Block currentBlock, List<Coordinate> potentialNewCoordinates)
+    private bool IsValidPlacement(Block currentBlock, List<Coordinate> potentialCoordinates)
     {
-        return AreWithinBounds(potentialNewCoordinates) && CoordinatesAreOpen(currentBlock, potentialNewCoordinates);
+        return AreWithinBounds(potentialCoordinates) && CoordinatesAreOpen(currentBlock, potentialCoordinates);
     }
 
     private bool AreWithinBounds(List<Coordinate> shiftedCoordinates)
@@ -171,13 +203,23 @@ public class PlayAreaController : MonoBehaviour
         return shiftedCoordinates.TrueForAll(coordinate => coordinate.X < _dimensions.NumberXCells
             && coordinate.X >= 0
             && coordinate.Y < _dimensions.NumberYCells
-            && coordinate.Y >= 0);
+            && coordinate.Y >= PlayAreaSetupper.SPAWN_PILLOW_ROOM);
     }
 
     private bool CoordinatesAreOpen(Block currentBlock, List<Coordinate> shiftedCoordinates)
     {
         return shiftedCoordinates.TrueForAll(coordinate =>
             _cellsByCoordinate[coordinate].IsEmpty() || currentBlock.PiecesByCoordinate.ContainsKey(coordinate));
+    }
+
+    public bool RowIndexIsEmpty(int yRowIndex)
+    {
+        for (int x = 0; x < _dimensions.NumberXCells; x++)
+        {
+            Coordinate coordinate = new Coordinate(x, yRowIndex, NOT_USED, NOT_USED);
+            if (_cellsByCoordinate[coordinate].BlockPiece != null) return false;
+        }
+        return true;
     }
 
     private static bool IsDownwardsMovement(int yShift)

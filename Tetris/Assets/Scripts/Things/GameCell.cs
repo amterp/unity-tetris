@@ -7,11 +7,14 @@ public class GameCell : MonoBehaviour
 {
 
     public Color SpawnPillowRoomCellColor;
+    public float GhostColorStrength = 0.3f;
 
     public Coordinate Coordinate { get; private set; }
-    public BlockPiece? BlockPiece { get { return _blockPiece; } set { _blockPiece = value; UpdateRender(); } }
+    public BlockPiece? BlockPiece { get { return _realBlockPiece; } set { _realBlockPiece = value; UpdateRender(); } }
+    public BlockPiece? GhostBlockPiece { get { return _ghostBlockPiece; } set { _ghostBlockPiece = value; UpdateRender(); } }
 
-    private BlockPiece? _blockPiece;
+    private BlockPiece? _realBlockPiece;
+    private BlockPiece? _ghostBlockPiece;
     private SpriteRenderer _spriteRenderer;
     private Color _defaultEmptyColor;
 
@@ -35,6 +38,12 @@ public class GameCell : MonoBehaviour
 
     private void UpdateRender()
     {
+        UpdateBaseColor();
+        AddGhostColorIfApplicable();
+    }
+
+    private void UpdateBaseColor()
+    {
         if (BlockPiece != null)
         {
             _spriteRenderer.color = BlockPiece.GetColor();
@@ -46,6 +55,14 @@ public class GameCell : MonoBehaviour
         else if (BlockPiece == null)
         {
             _spriteRenderer.color = _defaultEmptyColor;
+        }
+    }
+
+    private void AddGhostColorIfApplicable()
+    {
+        if (_ghostBlockPiece != null)
+        {
+            _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _ghostBlockPiece.GetColor(), GhostColorStrength);
         }
     }
 

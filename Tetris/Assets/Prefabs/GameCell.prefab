@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPillowRoomCellColor: {r: 1, g: 0, b: 0, a: 0.27450982}
+  GhostColorStrength: 0.3

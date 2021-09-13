@@ -14,17 +14,20 @@ public class PlayAreaController : MonoBehaviour
 
     private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
+    private List<Vector2Int> _ghostBlockCoordinates;
 
     void Start()
     {
         _cellsByCoordinate = GetComponent<PlayAreaSetupper>().InitializeGameCells();
         _dimensions = GetComponent<DimensionsHandler>();
+        _ghostBlockCoordinates = new List<Vector2Int>();
     }
 
     public void AddBlock(Block currentBlock)
     {
         MoveBlockUpIfInitialSpawnHasNoRoom(currentBlock);
         AddBlockToPlayArea(currentBlock);
+        UpdateBlockGhost(currentBlock);
     }
 
     public void TryMove(Block currentBlock, int xShift, int yShift)
@@ -44,6 +47,7 @@ public class PlayAreaController : MonoBehaviour
         if (!blockTransformation.IsValid()) return;
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation.OldToNewCoordinates);
+        UpdateBlockGhost(currentBlock);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
@@ -120,6 +124,7 @@ public class PlayAreaController : MonoBehaviour
     {
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation.OldToNewCoordinates);
+        UpdateBlockGhost(currentBlock);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
@@ -227,6 +232,29 @@ public class PlayAreaController : MonoBehaviour
             if (_cellsByCoordinate[vector2IntCoordinate].BlockPiece != null) return false;
         }
         return true;
+    }
+
+    private void UpdateBlockGhost(Block currentBlock)
+    {
+        ClearExistingGhostPieces();
+        BlockTransformation transformation = CalculateInstantPlaceTransformation(currentBlock);
+        AddNewGhostPieces(transformation);
+    }
+
+    private void ClearExistingGhostPieces()
+    {
+        _ghostBlockCoordinates.ForEach(coordinate => _cellsByCoordinate[coordinate].GhostBlockPiece = null);
+    }
+
+    private void AddNewGhostPieces(BlockTransformation transformation)
+    {
+        foreach (Coordinate existingCoordinate in transformation.OldToNewCoordinates.Keys)
+        {
+            Vector2Int ghostCoordinate = transformation.OldToNewCoordinates[existingCoordinate].AsVector2Int();
+            _cellsByCoordinate[ghostCoordinate].GhostBlockPiece =
+                transformation.Block.PiecesByCoordinate[existingCoordinate];
+            _ghostBlockCoordinates.Add(ghostCoordinate);
+        }
     }
 
     private static List<Coordinate> CalculateShiftedCoordinates(List<Coordinate> coordinatesToShift, int xShift, int yShift)

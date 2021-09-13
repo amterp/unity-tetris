@@ -33,20 +33,8 @@ public class PlayAreaController : MonoBehaviour
         {
             throw new InvalidOperationException("Cannot move diagonally!");
         }
-
         BlockTransformation blockTransformation = currentBlock.CalculateLinearTransformation(xShift, yShift);
-
-        if (!IsValidPlacement(blockTransformation.Block, new List<Coordinate>(blockTransformation.OldToNewCoordinates.Values)))
-        {
-            if (IsDownwardsMovement(yShift))
-            {
-                PlaceBlock(currentBlock);
-            }
-        }
-        else if (blockTransformation.IsValid())
-        {
-            ShiftBlock(currentBlock, blockTransformation);
-        }
+        PerformShiftTransformation(currentBlock, blockTransformation);
     }
 
     public void TryRotate(Block currentBlock, RotationDirection rotationDirection)
@@ -61,17 +49,26 @@ public class PlayAreaController : MonoBehaviour
 
     public void InstantPlace(Block currentBlock)
     {
+        BlockTransformation instantPlaceTransformation = CalculateInstantPlaceTransformation(currentBlock);
+        PerformShiftTransformation(currentBlock, instantPlaceTransformation);
+        PlaceBlock(currentBlock);
+    }
+
+    private BlockTransformation CalculateInstantPlaceTransformation(Block currentBlock)
+    {
+        BlockTransformation previousTestedTransformation = currentBlock.CalculateLinearTransformation(0, 0);
+        BlockTransformation currentTransformationToTest;
         for (int cellDistance = 1; cellDistance < _dimensions.NumberYCells; cellDistance++)
         {
-            BlockTransformation blockTransformation = currentBlock.CalculateLinearTransformation(0, cellDistance);
-            if (!blockTransformation.IsValid() || !IsValidPlacement(blockTransformation.Block, new List<Coordinate>(blockTransformation.OldToNewCoordinates.Values)))
+            currentTransformationToTest = currentBlock.CalculateLinearTransformation(0, cellDistance);
+            if (!currentTransformationToTest.IsValid()
+                || !IsValidPlacement(currentTransformationToTest.Block, new List<Coordinate>(currentTransformationToTest.OldToNewCoordinates.Values)))
             {
-                TryMove(currentBlock, 0, cellDistance - 1);
-                PlaceBlock(currentBlock);
-                return;
+                return previousTestedTransformation;
             }
+            previousTestedTransformation = currentTransformationToTest;
         }
-        throw new InvalidProgramException("Not yet handling what happens if cannot instant place.");
+        return previousTestedTransformation;
     }
 
     private void MoveBlockUpIfInitialSpawnHasNoRoom(Block currentBlock)
@@ -89,6 +86,21 @@ public class PlayAreaController : MonoBehaviour
         {
             MoveYSpawnBy(-2, currentBlock);
             return;
+        }
+    }
+
+    private void PerformShiftTransformation(Block currentBlock, BlockTransformation transformation)
+    {
+        if (!IsValidPlacement(transformation.Block, new List<Coordinate>(transformation.OldToNewCoordinates.Values)))
+        {
+            if (transformation.ShiftDirection == ShiftDirection.Down)
+            {
+                PlaceBlock(currentBlock);
+            }
+        }
+        else if (transformation.IsValid())
+        {
+            ShiftBlock(currentBlock, transformation);
         }
     }
 
@@ -130,11 +142,6 @@ public class PlayAreaController : MonoBehaviour
         {
             _cellsByCoordinate[newCoordinate.AsVector2Int()].BlockPiece = piecesByNewCoordinate[newCoordinate];
         }
-    }
-
-    private bool CoordinateWillStillContainBlockPiece(Coordinate oldCoordinate, Dictionary<Coordinate, Coordinate> oldToShiftedCoordinateDict)
-    {
-        return oldToShiftedCoordinateDict.Values.Contains(oldCoordinate);
     }
 
     private void PlaceBlock(Block currentBlock)
@@ -220,11 +227,6 @@ public class PlayAreaController : MonoBehaviour
             if (_cellsByCoordinate[vector2IntCoordinate].BlockPiece != null) return false;
         }
         return true;
-    }
-
-    private static bool IsDownwardsMovement(int yShift)
-    {
-        return yShift > 0;
     }
 
     private static List<Coordinate> CalculateShiftedCoordinates(List<Coordinate> coordinatesToShift, int xShift, int yShift)

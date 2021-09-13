@@ -15,12 +15,12 @@ public class Block
     private RotationState _rotationState;
     private Vector2 _pivotPosition;
 
-    public Block(BlockType blockType, Dictionary<Coordinate, BlockPiece> piecesByCoordinate)
+    public Block(BlockType blockType, Dictionary<Coordinate, BlockPiece> piecesByCoordinate, Vector2 additionalPivotOffset)
     {
         BlockType = blockType;
         PiecesByCoordinate = piecesByCoordinate;
         _rotationState = RotationState.Zero;
-        _pivotPosition = BlockType.PivotOffset();
+        _pivotPosition = BlockType.PivotOffset() + additionalPivotOffset;
     }
 
     public List<Coordinate> GetCoordinatesCopy()

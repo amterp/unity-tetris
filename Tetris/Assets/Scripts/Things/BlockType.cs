@@ -15,6 +15,25 @@ public enum BlockType
 
 static class BlockTypeMethods
 {
+    public static Vector2Int BoundingBoxDimensions(this BlockType blockType)
+    {
+        switch (blockType)
+        {
+            case BlockType.Line:
+                return new Vector2Int(4, 1);
+            case BlockType.Square:
+                return new Vector2Int(2, 2);
+            case BlockType.L:
+            case BlockType.J:
+            case BlockType.S:
+            case BlockType.Z:
+            case BlockType.T:
+                return new Vector2Int(3, 2);
+            default:
+                throw new InvalidOperationException("Unknown BlockType: " + blockType);
+        }
+    }
+
     /** https://tetris.fandom.com/wiki/SRS */
     public static Vector2 PivotOffset(this BlockType blockType)
     {

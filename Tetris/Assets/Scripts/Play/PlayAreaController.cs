@@ -12,7 +12,7 @@ public class PlayAreaController : MonoBehaviour
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
 
-    private Dictionary<Coordinate, GameCell> _cellsByCoordinate;
+    private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
 
     void Start()
@@ -95,7 +95,7 @@ public class PlayAreaController : MonoBehaviour
     private void AddBlockToPlayArea(Block currentBlock)
     {
         new List<Coordinate>(currentBlock.PiecesByCoordinate.Keys)
-            .ForEach(coordinate => _cellsByCoordinate[coordinate].BlockPiece = currentBlock.PiecesByCoordinate[coordinate]);
+            .ForEach(coordinate => _cellsByCoordinate[coordinate.AsVector2Int()].BlockPiece = currentBlock.PiecesByCoordinate[coordinate]);
     }
 
     private void MoveYSpawnBy(int yShift, Block currentBlock)
@@ -117,7 +117,7 @@ public class PlayAreaController : MonoBehaviour
 
         foreach (Coordinate oldCoordinate in oldToNewCoordinateDict.Keys)
         {
-            GameCell gameCellAtOldCoordinate = _cellsByCoordinate[oldCoordinate];
+            GameCell gameCellAtOldCoordinate = _cellsByCoordinate[oldCoordinate.AsVector2Int()];
             BlockPiece? blockPieceToMove = gameCellAtOldCoordinate.BlockPiece;
 
             if (blockPieceToMove == null) continue;
@@ -128,7 +128,7 @@ public class PlayAreaController : MonoBehaviour
 
         foreach (Coordinate newCoordinate in piecesByNewCoordinate.Keys)
         {
-            _cellsByCoordinate[newCoordinate].BlockPiece = piecesByNewCoordinate[newCoordinate];
+            _cellsByCoordinate[newCoordinate.AsVector2Int()].BlockPiece = piecesByNewCoordinate[newCoordinate];
         }
     }
 
@@ -165,7 +165,7 @@ public class PlayAreaController : MonoBehaviour
     {
         for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
         {
-            if (_cellsByCoordinate[new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED)].IsEmpty())
+            if (_cellsByCoordinate[new Vector2Int(columnIndex, rowIndex)].IsEmpty())
             {
                 return false;
             }
@@ -177,7 +177,7 @@ public class PlayAreaController : MonoBehaviour
     {
         for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
         {
-            _cellsByCoordinate[new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED)].BlockPiece = null;
+            _cellsByCoordinate[new Vector2Int(columnIndex, rowIndex)].BlockPiece = null;
         }
     }
 
@@ -188,8 +188,8 @@ public class PlayAreaController : MonoBehaviour
         {
             Coordinate coordinateToMove = new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED);
             Coordinate coordinateToMoveTo = new Coordinate(columnIndex, rowIndex + yShiftAmount, NOT_USED, NOT_USED);
-            _cellsByCoordinate[coordinateToMoveTo].BlockPiece = _cellsByCoordinate[coordinateToMove].BlockPiece;
-            _cellsByCoordinate[coordinateToMove].BlockPiece = null;
+            _cellsByCoordinate[coordinateToMoveTo.AsVector2Int()].BlockPiece = _cellsByCoordinate[coordinateToMove.AsVector2Int()].BlockPiece;
+            _cellsByCoordinate[coordinateToMove.AsVector2Int()].BlockPiece = null;
         }
     }
 
@@ -209,15 +209,15 @@ public class PlayAreaController : MonoBehaviour
     private bool CoordinatesAreOpen(Block currentBlock, List<Coordinate> shiftedCoordinates)
     {
         return shiftedCoordinates.TrueForAll(coordinate =>
-            _cellsByCoordinate[coordinate].IsEmpty() || currentBlock.PiecesByCoordinate.ContainsKey(coordinate));
+            _cellsByCoordinate[coordinate.AsVector2Int()].IsEmpty() || currentBlock.PiecesByCoordinate.ContainsKey(coordinate));
     }
 
     public bool RowIndexIsEmpty(int yRowIndex)
     {
         for (int x = 0; x < _dimensions.NumberXCells; x++)
         {
-            Coordinate coordinate = new Coordinate(x, yRowIndex, NOT_USED, NOT_USED);
-            if (_cellsByCoordinate[coordinate].BlockPiece != null) return false;
+            Vector2Int vector2IntCoordinate = new Vector2Int(x, yRowIndex);
+            if (_cellsByCoordinate[vector2IntCoordinate].BlockPiece != null) return false;
         }
         return true;
     }

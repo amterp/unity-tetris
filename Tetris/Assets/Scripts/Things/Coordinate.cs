@@ -11,6 +11,7 @@ public class Coordinate
 
     private float _originX;
     private float _originY;
+    private Vector2Int _vector2IntRepresentation;
 
     public static Coordinate operator +(Coordinate a) => a;
     public static Coordinate operator -(Coordinate a) => new Coordinate(-a.X, -a.Y, a._originX, a._originY);
@@ -24,6 +25,7 @@ public class Coordinate
         _originX = originX;
         _originY = originY;
         Transform = null;
+        _vector2IntRepresentation = new Vector2Int(x, y);
     }
 
     public Coordinate(int x, int y, float originX, float originY, Transform transform)
@@ -33,6 +35,7 @@ public class Coordinate
         _originX = originX;
         _originY = originY;
         Transform = transform;
+        _vector2IntRepresentation = new Vector2Int(x, y);
     }
 
     public Coordinate XShifted(int xShift)
@@ -76,7 +79,7 @@ public class Coordinate
 
     public Vector2Int AsVector2Int()
     {
-        return new Vector2Int(X, Y);
+        return _vector2IntRepresentation;
     }
 
     public override string ToString()

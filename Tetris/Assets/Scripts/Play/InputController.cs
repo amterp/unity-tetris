@@ -10,12 +10,14 @@ public class InputController : MonoBehaviour
 
     public float ShiftRepeatIntervalSeconds = 0.1f;
 
+    private GameState _gameState;
     private BlockController _blockController;
     private ShiftDirection? _previousFrameDirection;
     private float _nextMovementTimeSeconds;
 
     void Awake()
     {
+        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
         _blockController = GetComponent<BlockController>();
         _previousFrameDirection = null;
         _nextMovementTimeSeconds = IMMEDIATELY;
@@ -23,6 +25,7 @@ public class InputController : MonoBehaviour
 
     void Update()
     {
+        if (!_gameState.IsGameInProgress()) return;
         RunPlayerInput();
     }
 

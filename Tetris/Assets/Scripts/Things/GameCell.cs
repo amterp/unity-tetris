@@ -31,6 +31,12 @@ public class GameCell : MonoBehaviour
         UpdateRender();
     }
 
+    public void Reset()
+    {
+        BlockPiece = null;
+        GhostBlockPiece = null;
+    }
+
     public bool IsEmpty()
     {
         return BlockPiece == null;

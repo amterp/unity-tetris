@@ -19,7 +19,7 @@ public class BlockController : MonoBehaviour
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
-        _gameState.GameStartedEvent += SpawnBlockIfNone;
+        _gameState.GameStartedEvent += OnGameStarted;
     }
 
     public void TryMove(int xShift, int yShift)
@@ -35,6 +35,12 @@ public class BlockController : MonoBehaviour
     public void InstantPlace()
     {
         _playAreaController.InstantPlace(_currentBlock);
+    }
+
+    private void OnGameStarted()
+    {
+        _currentBlock = null;
+        SpawnBlockIfNone();
     }
 
     private void OnBlockPlaced()

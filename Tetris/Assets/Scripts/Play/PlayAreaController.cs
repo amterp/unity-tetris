@@ -24,6 +24,7 @@ public class PlayAreaController : MonoBehaviour
         _ghostBlockCoordinates = new List<Vector2Int>();
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+        _gameState.GameStartedEvent += OnGameStarted;
     }
 
     void Start()
@@ -271,6 +272,12 @@ public class PlayAreaController : MonoBehaviour
                 transformation.Block.PiecesByCoordinate[existingCoordinate];
             _ghostBlockCoordinates.Add(ghostCoordinate);
         }
+    }
+
+    private void OnGameStarted()
+    {
+        new List<GameCell>(_cellsByCoordinate.Values).ForEach(gameCell => gameCell.Reset());
+        _ghostBlockCoordinates.Clear();
     }
 
     private static List<Coordinate> CalculateShiftedCoordinates(List<Coordinate> coordinatesToShift, int xShift, int yShift)

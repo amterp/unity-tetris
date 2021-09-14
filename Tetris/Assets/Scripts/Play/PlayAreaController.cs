@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayAreaController : MonoBehaviour
 {
+    private const int FIRST_ROW_INDEX_OUTSIDE_PLAY_AREA = -1;
     private const float NOT_USED = -1f;
     private const bool SUCCEEDED = true;
     private const bool FAILED = false;
@@ -15,12 +16,20 @@ public class PlayAreaController : MonoBehaviour
     private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
     private List<Vector2Int> _ghostBlockCoordinates;
+    private GameState _gameState;
+
+    void Awake()
+    {
+        _dimensions = GetComponent<DimensionsHandler>();
+        _ghostBlockCoordinates = new List<Vector2Int>();
+
+        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+    }
 
     void Start()
     {
         _cellsByCoordinate = GetComponent<PlayAreaSetupper>().InitializeGameCells();
-        _dimensions = GetComponent<DimensionsHandler>();
-        _ghostBlockCoordinates = new List<Vector2Int>();
+        _gameState.SetGameStarted();
     }
 
     public void AddBlock(Block currentBlock)
@@ -153,7 +162,14 @@ public class PlayAreaController : MonoBehaviour
     {
         currentBlock.IsPlaced = true;
         CheckRowCompletion();
+        CheckGameOver();
         EventUtil.SafeInvoke(BlockPlacedEvent);
+    }
+
+    private void CheckGameOver()
+    {
+        if (RowIndexIsEmpty(FIRST_ROW_INDEX_OUTSIDE_PLAY_AREA)) return;
+        _gameState.SetGameOver();
     }
 
     private void CheckRowCompletion()

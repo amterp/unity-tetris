@@ -21,7 +21,7 @@ public class WeightedBlockSpawner : MonoBehaviour, IBlockSpawner
 
     private BlockFactory _blockFactory;
 
-    void Start()
+    void Awake()
     {
         _blockFactory = GetComponent<BlockFactory>();
 

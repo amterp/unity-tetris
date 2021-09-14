@@ -16,7 +16,7 @@ public class BlockFactory : MonoBehaviour
     private int _z_block_x_center_offset;
     private int _t_block_x_center_offset;
 
-    void Start()
+    void Awake()
     {
         _dimensions = GetComponent<DimensionsHandler>();
 

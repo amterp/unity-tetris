@@ -13,13 +13,15 @@ public class GravityApplier : MonoBehaviour
     private PlayAreaController _playAreaController;
     private float _nextTimeForMovement;
     private float _dropIntervalSeconds;
+    private GameState _gameState;
 
-    void Start()
+    void Awake()
     {
         _blockController = GetComponent<BlockController>();
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockTransformationEvent += OnBlockShifted;
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
+        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
 
         _dropIntervalSeconds = 1 / CellDropsPerSecond;
 
@@ -28,6 +30,7 @@ public class GravityApplier : MonoBehaviour
 
     void Update()
     {
+        if (!_gameState.IsGameInProgress()) return;
         MoveIfTimerIsUp();
     }
 

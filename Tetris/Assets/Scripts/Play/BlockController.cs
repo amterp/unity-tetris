@@ -9,13 +9,17 @@ public class BlockController : MonoBehaviour
     private IBlockSpawner _blockSpawner;
     private PlayAreaController _playAreaController;
     private Block? _currentBlock;
+    private GameState _gameState;
 
-    void Start()
+    void Awake()
     {
         _blockSpawner = GetComponent<IBlockSpawner>();
+
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
-        SpawnBlockIfNone();
+
+        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+        _gameState.GameStartedEvent += SpawnBlockIfNone;
     }
 
     public void TryMove(int xShift, int yShift)
@@ -35,17 +39,18 @@ public class BlockController : MonoBehaviour
 
     private void OnBlockPlaced()
     {
-        SpawnNewBlock();
+        SpawnNewBlockIfGameInProgress();
     }
 
     private void SpawnBlockIfNone()
     {
         if (_currentBlock != null) return;
-        SpawnNewBlock();
+        SpawnNewBlockIfGameInProgress();
     }
 
-    private void SpawnNewBlock()
+    private void SpawnNewBlockIfGameInProgress()
     {
+        if (!_gameState.IsGameInProgress()) return;
         _currentBlock = _blockSpawner.GetNextBlock();
         _playAreaController.AddBlock(_currentBlock);
     }

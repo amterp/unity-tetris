@@ -12,6 +12,7 @@ public class PlayAreaController : MonoBehaviour
 
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
+    public event Action<int> RowsCompletedEvent;
 
     private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
@@ -188,6 +189,7 @@ public class PlayAreaController : MonoBehaviour
                 ShiftDownRow(rowIndex, numRowsComplete);
             }
         }
+        if (numRowsComplete > 0) EventUtil.SafeInvoke(RowsCompletedEvent, numRowsComplete);
     }
 
     private bool RowComplete(int rowIndex)

@@ -7,13 +7,11 @@ public class GravityApplier : MonoBehaviour
 {
     private const int DOWN = 1;
 
-    public float CellDropsPerSecond;
-
     private BlockController _blockController;
     private PlayAreaController _playAreaController;
     private float _nextTimeForMovement;
-    private float _dropIntervalSeconds;
     private GameState _gameState;
+    private DifficultyController _difficultyController;
 
     void Awake()
     {
@@ -22,8 +20,7 @@ public class GravityApplier : MonoBehaviour
         _playAreaController.BlockTransformationEvent += OnBlockShifted;
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
-
-        _dropIntervalSeconds = 1 / CellDropsPerSecond;
+        _difficultyController = GetComponent<DifficultyController>();
 
         ResetTimer();
     }
@@ -45,7 +42,7 @@ public class GravityApplier : MonoBehaviour
 
     private void ResetTimer()
     {
-        _nextTimeForMovement = Time.time + _dropIntervalSeconds;
+        _nextTimeForMovement = Time.time + _difficultyController.GetBlockGravityDropIntervalSeconds();
     }
 
     private void OnBlockShifted(BlockTransformation blockTransformation)

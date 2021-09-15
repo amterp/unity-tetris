@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 118155883}
   - component: {fileID: 118155890}
   - component: {fileID: 118155885}
+  - component: {fileID: 118155889}
   m_Layer: 5
   m_Name: PlayArea
   m_TagString: Untagged
@@ -340,6 +341,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShiftRepeatIntervalSeconds: 0.1
+--- !u!114 &118155889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118155879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5becb6d7122ba6a4a84dbf2f50a94f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Difficulty: 0.5
 --- !u!114 &118155890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914be4b1210000440b6d602225506258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CellDropsPerSecond: 2
 --- !u!1 &159912816
 GameObject:
   m_ObjectHideFlags: 0

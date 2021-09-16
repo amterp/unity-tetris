@@ -15,12 +15,12 @@ public class Block
     private RotationState _rotationState;
     private Vector2 _pivotPosition;
 
-    public Block(BlockType blockType, Dictionary<Coordinate, BlockPiece> piecesByCoordinate, Vector2 additionalPivotOffset)
+    public Block(BlockType blockType, Dictionary<Coordinate, BlockPiece> piecesByCoordinate)
     {
         BlockType = blockType;
         PiecesByCoordinate = piecesByCoordinate;
         _rotationState = RotationState.Zero;
-        _pivotPosition = BlockType.PivotOffset() + additionalPivotOffset;
+        _pivotPosition = BlockType.PivotOffset();
     }
 
     public List<Coordinate> GetCoordinatesCopy()
@@ -54,6 +54,19 @@ public class Block
             }
         }
         return BlockTransformation.INVALID_TRANSFORMATION;
+    }
+
+    public BlockTransformation CalculateTransformationForMovingToCoordinate(int xCoordinate, int yCoordinate)
+    {
+        Vector2Int currentPosition = new Vector2Int(Mathf.RoundToInt(_pivotPosition.x - BlockType.PivotOffset().x),
+            Mathf.RoundToInt(_pivotPosition.y - BlockType.PivotOffset().y));
+        return CalculateLinearTransformation(xCoordinate - currentPosition.x, yCoordinate - currentPosition.y);
+    }
+
+    public BlockTransformation CalculateTransformationForMovingToCoordinateX(int xCoordinate)
+    {
+        int currentPositionX = Mathf.RoundToInt(_pivotPosition.x - BlockType.PivotOffset().x);
+        return CalculateLinearTransformation(xCoordinate - currentPositionX, 0);
     }
 
     public void PerformTransformation(BlockTransformation blockTransformation)

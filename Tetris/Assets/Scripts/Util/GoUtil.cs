@@ -1,5 +1,6 @@
 using UnityEngine;
 
+/** GameObject Util */
 public static class GoUtil
 {
     public static GameState FindGameState()

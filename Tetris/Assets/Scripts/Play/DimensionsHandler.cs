@@ -21,8 +21,8 @@ public class DimensionsHandler : MonoBehaviour
         YScale = transform.localScale.y / NumberYCells;
         CellScale = new Vector3(XScale, YScale);
 
-        _originX = -transform.localScale.x / 2 + XScale / 2;
-        _originY = transform.localScale.y / 2 - YScale / 2;
+        _originX = -transform.localScale.x / 2 + XScale / 2 + transform.position.x;
+        _originY = transform.localScale.y / 2 - YScale / 2 + transform.position.y;
     }
 
     public Vector3 GetCellScale()
@@ -40,5 +40,11 @@ public class DimensionsHandler : MonoBehaviour
         Coordinate coordinate = new Coordinate(x, y, _originX, _originY, underlyingTransform);
         coordinate.UpdateTransform();
         return coordinate;
+    }
+
+    public int CalculateCenterOffsetX(BlockType blockType)
+    {
+        int halfwayXCoordinate = NumberXCells / 2;
+        return halfwayXCoordinate - Mathf.CeilToInt(blockType.BoundingBoxDimensions().x / 2f);
     }
 }

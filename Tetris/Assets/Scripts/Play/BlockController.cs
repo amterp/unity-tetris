@@ -6,6 +6,8 @@ using UnityEngine;
 public class BlockController : MonoBehaviour
 {
 
+    public GameObject BlockSpawnerContainer;
+
     private IBlockSpawner _blockSpawner;
     private PlayAreaController _playAreaController;
     private Block? _currentBlock;
@@ -13,7 +15,7 @@ public class BlockController : MonoBehaviour
 
     void Awake()
     {
-        _blockSpawner = GetComponent<IBlockSpawner>();
+        _blockSpawner = BlockSpawnerContainer.GetComponent<IBlockSpawner>();
 
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;

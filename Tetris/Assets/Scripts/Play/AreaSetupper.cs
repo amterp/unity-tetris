@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayAreaSetupper : MonoBehaviour
+public class AreaSetupper : MonoBehaviour
 {
     public const int SPAWN_PILLOW_ROOM = -2;
-    private const int Y_INDEX_START = 0 + SPAWN_PILLOW_ROOM;
 
     public GameObject GameCellPrefab;
+    public int NumberPillowCells;
 
     private DimensionsHandler _dimensions;
 
@@ -17,7 +17,7 @@ public class PlayAreaSetupper : MonoBehaviour
         _dimensions = GetComponent<DimensionsHandler>();
 
         Dictionary<Vector2Int, GameCell> cellsByCoordinate = new Dictionary<Vector2Int, GameCell>();
-        for (int y = Y_INDEX_START; y < _dimensions.NumberYCells; y++)
+        for (int y = -NumberPillowCells; y < _dimensions.NumberYCells; y++)
         {
             for (int x = 0; x < _dimensions.NumberXCells; x++)
             {

@@ -19,6 +19,8 @@ public class PlayAreaController : MonoBehaviour
     private List<Vector2Int> _ghostBlockCoordinates;
     private GameState _gameState;
 
+    private int _xCenter;
+
     void Awake()
     {
         _dimensions = GetComponent<DimensionsHandler>();
@@ -26,17 +28,22 @@ public class PlayAreaController : MonoBehaviour
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
         _gameState.GameStartedEvent += OnGameStarted;
+
+        _xCenter = GetComponent<DimensionsHandler>().NumberXCells / 2 - 2;
     }
 
     void Start()
     {
-        _cellsByCoordinate = GetComponent<PlayAreaSetupper>().InitializeGameCells();
+        _cellsByCoordinate = GetComponent<AreaSetupper>().InitializeGameCells();
         _gameState.SetGameStarted();
     }
 
     public void AddBlock(Block currentBlock)
     {
         MoveBlockUpIfInitialSpawnHasNoRoom(currentBlock);
+        int centerOffsetX = _dimensions.CalculateCenterOffsetX(currentBlock.BlockType);
+        BlockTransformation initialCenteringTransformation = currentBlock.CalculateTransformationForMovingToCoordinateX(centerOffsetX);
+        ShiftBlockWithoutEventTrigger(currentBlock, initialCenteringTransformation);
         AddBlockToPlayArea(currentBlock);
         UpdateBlockGhost(currentBlock);
     }
@@ -57,7 +64,7 @@ public class PlayAreaController : MonoBehaviour
             currentBlock.CalculateRotatedCoordinates(currentBlock, rotationDirection, coordinates => IsValidPlacement(currentBlock, coordinates));
         if (!blockTransformation.IsValid()) return;
         currentBlock.PerformTransformation(blockTransformation);
-        UpdateCellTable(blockTransformation.OldToNewCoordinates);
+        UpdateCellTable(blockTransformation);
         UpdateBlockGhost(currentBlock);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
@@ -115,7 +122,7 @@ public class PlayAreaController : MonoBehaviour
         }
         else if (transformation.IsValid())
         {
-            ShiftBlock(currentBlock, transformation);
+            ShiftBlockWithEventTrigger(currentBlock, transformation);
         }
     }
 
@@ -131,16 +138,22 @@ public class PlayAreaController : MonoBehaviour
         currentBlock.PerformTransformation(shiftUpTransformation);
     }
 
-    private void ShiftBlock(Block currentBlock, BlockTransformation blockTransformation)
+    private void ShiftBlockWithEventTrigger(Block currentBlock, BlockTransformation blockTransformation)
     {
-        currentBlock.PerformTransformation(blockTransformation);
-        UpdateCellTable(blockTransformation.OldToNewCoordinates);
-        UpdateBlockGhost(currentBlock);
+        ShiftBlockWithoutEventTrigger(currentBlock, blockTransformation);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
-    private void UpdateCellTable(Dictionary<Coordinate, Coordinate> oldToNewCoordinateDict)
+    private void ShiftBlockWithoutEventTrigger(Block currentBlock, BlockTransformation blockTransformation)
     {
+        currentBlock.PerformTransformation(blockTransformation);
+        UpdateCellTable(blockTransformation);
+        UpdateBlockGhost(currentBlock);
+    }
+
+    private void UpdateCellTable(BlockTransformation blockTransformation)
+    {
+        Dictionary<Coordinate, Coordinate> oldToNewCoordinateDict = blockTransformation.OldToNewCoordinates;
         Dictionary<Coordinate, BlockPiece> piecesByNewCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
         foreach (Coordinate oldCoordinate in oldToNewCoordinateDict.Keys)
@@ -148,9 +161,15 @@ public class PlayAreaController : MonoBehaviour
             GameCell gameCellAtOldCoordinate = _cellsByCoordinate[oldCoordinate.AsVector2Int()];
             BlockPiece? blockPieceToMove = gameCellAtOldCoordinate.BlockPiece;
 
-            if (blockPieceToMove == null) continue;
+            if (blockPieceToMove != null)
+            {
+                gameCellAtOldCoordinate.BlockPiece = null;
+            }
+            else
+            {
+                blockPieceToMove = blockTransformation.Block.PiecesByCoordinate[oldToNewCoordinateDict[oldCoordinate]];
+            }
 
-            gameCellAtOldCoordinate.BlockPiece = null;
             piecesByNewCoordinate.Add(oldToNewCoordinateDict[oldCoordinate], blockPieceToMove);
         }
 
@@ -234,7 +253,7 @@ public class PlayAreaController : MonoBehaviour
         return shiftedCoordinates.TrueForAll(coordinate => coordinate.X < _dimensions.NumberXCells
             && coordinate.X >= 0
             && coordinate.Y < _dimensions.NumberYCells
-            && coordinate.Y >= PlayAreaSetupper.SPAWN_PILLOW_ROOM);
+            && coordinate.Y >= AreaSetupper.SPAWN_PILLOW_ROOM);
     }
 
     private bool CoordinatesAreOpen(Block currentBlock, List<Coordinate> shiftedCoordinates)

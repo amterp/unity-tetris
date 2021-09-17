@@ -19,7 +19,7 @@ public class BlockSpawnerBuffer : MonoBehaviour, IBlockSpawner
         _orderedBlockList = new List<Block>();
         _delegateBlockSpawner = BlockSpawnerContainer.GetComponent<IBlockSpawner>();
         GameState gameState = GoUtil.FindGameState();
-        gameState.GameStartedEvent += OnGameStarted;
+        gameState.GameOverEvent += OnGameOver;
     }
 
     public List<Block> GetBlocksInBuffer()
@@ -38,10 +38,9 @@ public class BlockSpawnerBuffer : MonoBehaviour, IBlockSpawner
         return nextBlock;
     }
 
-    private void OnGameStarted()
+    private void OnGameOver()
     {
         _orderedBlockList.Clear();
-        PopulateBuffer();
     }
 
     private void PopulateBufferIfEmpty()

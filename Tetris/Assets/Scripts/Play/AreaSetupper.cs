@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(DimensionsHandler))]
 public class AreaSetupper : MonoBehaviour
 {
     public const int SPAWN_PILLOW_ROOM = -2;

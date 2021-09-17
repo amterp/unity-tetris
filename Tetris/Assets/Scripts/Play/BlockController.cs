@@ -7,11 +7,14 @@ public class BlockController : MonoBehaviour
 {
 
     public GameObject BlockSpawnerContainer;
+    public GameObject BlockStashContainer;
 
     private IBlockSpawner _blockSpawner;
+    private BlockStashController _blockStashController;
     private PlayAreaController _playAreaController;
     private Block? _currentBlock;
     private GameState _gameState;
+    private bool _isStashingAvailable;
 
     void Awake()
     {
@@ -19,6 +22,8 @@ public class BlockController : MonoBehaviour
 
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
+
+        _blockStashController = BlockStashContainer.GetComponent<BlockStashController>();
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
         _gameState.GameStartedEvent += OnGameStarted;
@@ -34,6 +39,25 @@ public class BlockController : MonoBehaviour
         _playAreaController.TryRotate(_currentBlock, rotationDirection);
     }
 
+    public void TryBlockStashSwap()
+    {
+        if (!_isStashingAvailable || _currentBlock == null) return;
+
+        _playAreaController.RemoveBlock(_currentBlock);
+        _currentBlock = _blockStashController.SwapBlock(_currentBlock);
+
+        if (_currentBlock == null)
+        {
+            SpawnBlockIfNone();
+        }
+        else
+        {
+            _playAreaController.AddBlock(_currentBlock);
+        }
+
+        _isStashingAvailable = false;
+    }
+
     public void InstantPlace()
     {
         _playAreaController.InstantPlace(_currentBlock);
@@ -42,11 +66,13 @@ public class BlockController : MonoBehaviour
     private void OnGameStarted()
     {
         _currentBlock = null;
+        _isStashingAvailable = true;
         SpawnBlockIfNone();
     }
 
     private void OnBlockPlaced()
     {
+        _isStashingAvailable = true;
         SpawnNewBlockIfGameInProgress();
     }
 

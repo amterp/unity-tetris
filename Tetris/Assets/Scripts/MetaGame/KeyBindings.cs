@@ -29,4 +29,9 @@ public class KeyBindingsChecker
     {
         return Input.GetKeyDown(KeyCode.Space);
     }
+
+    public static bool InputShift()
+    {
+        return Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+    }
 }

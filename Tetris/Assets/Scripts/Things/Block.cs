@@ -39,8 +39,7 @@ public class Block
         return new BlockTransformation(this, oldToNewCoordinateDict, new Vector2Int(xShift, yShift), null, _rotationState);
     }
 
-    public BlockTransformation CalculateRotatedCoordinates(Block block,
-        RotationDirection rotationDirection,
+    public BlockTransformation CalculateRotatedCoordinates(RotationDirection rotationDirection,
         Predicate<List<Coordinate>> validCoordinatesPredicate)
     {
         Dictionary<Coordinate, Coordinate> originalRotationResult = CalculateInitialRotation(rotationDirection);
@@ -67,6 +66,15 @@ public class Block
     {
         int currentPositionX = Mathf.RoundToInt(_pivotPosition.x - BlockType.PivotOffset().x);
         return CalculateLinearTransformation(xCoordinate - currentPositionX, 0);
+    }
+
+    public void PerformRotationReset()
+    {
+        while (_rotationState != RotationState.Zero)
+        {
+            BlockTransformation rotationTransformation = CalculateRotatedCoordinates(RotationDirection.Clockwise, _ => true);
+            PerformTransformation(rotationTransformation);
+        }
     }
 
     public void PerformTransformation(BlockTransformation blockTransformation)

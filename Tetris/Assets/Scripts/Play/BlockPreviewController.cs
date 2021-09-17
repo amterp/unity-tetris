@@ -20,7 +20,7 @@ public class BlockPreviewController : MonoBehaviour
 
     void Start()
     {
-        _cellsByCoordinate = GetComponent<AreaSetupper>().InitializeGameCells();
+        Initialize();
     }
 
     private void OnBufferUpdate()
@@ -41,6 +41,7 @@ public class BlockPreviewController : MonoBehaviour
 
     private void WipeExistingBlockPieces()
     {
+        if (!Initialized()) Initialize();
         new List<Vector2Int>(_cellsByCoordinate.Keys)
             .ForEach(coordinate => _cellsByCoordinate[coordinate].BlockPiece = null);
     }
@@ -55,5 +56,16 @@ public class BlockPreviewController : MonoBehaviour
             Coordinate newCoordinate = placementTransformation.OldToNewCoordinates[oldCoordinate];
             _cellsByCoordinate[newCoordinate.AsVector2Int()].BlockPiece = block.PiecesByCoordinate[newCoordinate];
         });
+    }
+
+    private void Initialize()
+    {
+        if (Initialized()) return;
+        _cellsByCoordinate = GetComponent<AreaSetupper>().InitializeGameCells();
+    }
+
+    private bool Initialized()
+    {
+        return _cellsByCoordinate != null;
     }
 }

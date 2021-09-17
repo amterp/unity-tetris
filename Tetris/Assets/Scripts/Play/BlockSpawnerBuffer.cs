@@ -29,6 +29,8 @@ public class BlockSpawnerBuffer : MonoBehaviour, IBlockSpawner
 
     public Block GetNextBlock()
     {
+        PopulateBufferIfEmpty();
+
         Block nextBlock = _orderedBlockList[0];
         _orderedBlockList.RemoveAt(0);
         _orderedBlockList.Add(_delegateBlockSpawner.GetNextBlock());
@@ -39,6 +41,12 @@ public class BlockSpawnerBuffer : MonoBehaviour, IBlockSpawner
     private void OnGameStarted()
     {
         _orderedBlockList.Clear();
+        PopulateBuffer();
+    }
+
+    private void PopulateBufferIfEmpty()
+    {
+        if (_orderedBlockList.Count > 0) return;
         PopulateBuffer();
     }
 

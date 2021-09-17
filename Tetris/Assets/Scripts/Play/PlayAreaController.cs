@@ -19,8 +19,6 @@ public class PlayAreaController : MonoBehaviour
     private List<Vector2Int> _ghostBlockCoordinates;
     private GameState _gameState;
 
-    private int _xCenter;
-
     void Awake()
     {
         _dimensions = GetComponent<DimensionsHandler>();
@@ -28,8 +26,6 @@ public class PlayAreaController : MonoBehaviour
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
         _gameState.GameStartedEvent += OnGameStarted;
-
-        _xCenter = GetComponent<DimensionsHandler>().NumberXCells / 2 - 2;
     }
 
     void Start()
@@ -48,6 +44,12 @@ public class PlayAreaController : MonoBehaviour
         UpdateBlockGhost(currentBlock);
     }
 
+    public void RemoveBlock(Block currentBlock)
+    {
+        new List<Coordinate>(currentBlock.GetCoordinatesCopy())
+            .ForEach(coordinate => _cellsByCoordinate[coordinate.AsVector2Int()].BlockPiece = null);
+    }
+
     public void TryMove(Block currentBlock, int xShift, int yShift)
     {
         if (xShift != 0 && yShift != 0)
@@ -61,7 +63,7 @@ public class PlayAreaController : MonoBehaviour
     public void TryRotate(Block currentBlock, RotationDirection rotationDirection)
     {
         BlockTransformation blockTransformation =
-            currentBlock.CalculateRotatedCoordinates(currentBlock, rotationDirection, coordinates => IsValidPlacement(currentBlock, coordinates));
+            currentBlock.CalculateRotatedCoordinates(rotationDirection, coordinates => IsValidPlacement(currentBlock, coordinates));
         if (!blockTransformation.IsValid()) return;
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation);

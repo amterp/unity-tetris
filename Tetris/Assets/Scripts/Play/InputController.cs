@@ -31,9 +31,18 @@ public class InputController : MonoBehaviour
 
     private void RunPlayerInput()
     {
+        RunPlayerStashing();
         RunInstantPlace();
-        RunPlayerShift();
+        RunPlayerTranslation();
         RunPlayerRotation();
+    }
+
+    private void RunPlayerStashing()
+    {
+        if (KeyBindingsChecker.InputShift())
+        {
+            _blockController.TryBlockStashSwap();
+        }
     }
 
     private void RunInstantPlace()
@@ -44,7 +53,7 @@ public class InputController : MonoBehaviour
         }
     }
 
-    private void RunPlayerShift()
+    private void RunPlayerTranslation()
     {
         bool inputtingRight = KeyBindingsChecker.InputRight();
         bool inputtingLeft = KeyBindingsChecker.InputLeft();

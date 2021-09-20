@@ -1,18 +1,19 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(OriginHandler))]
 public class DimensionsHandler : MonoBehaviour, IOriginProvider
 {
     public int NumberXCells;
     public int NumberYCells;
+    public Action OriginChangeEvent { get => _originHandler.OriginChangeEvent; set => _originHandler.OriginChangeEvent = value; }
 
     public float XScale { get; private set; }
     public float YScale { get; private set; }
     public Vector3 CellScale { get; private set; }
 
-    private float _originX;
-    private float _originY;
+    private OriginHandler _originHandler;
 
     void Awake()
     {
@@ -20,8 +21,7 @@ public class DimensionsHandler : MonoBehaviour, IOriginProvider
         YScale = transform.localScale.y / NumberYCells;
         CellScale = new Vector3(XScale, YScale);
 
-        _originX = -transform.localScale.x / 2 + XScale / 2 + transform.position.x;
-        _originY = transform.localScale.y / 2 - YScale / 2 + transform.position.y;
+        _originHandler = GetComponent<OriginHandler>();
     }
 
     public Vector3 GetCellScale()
@@ -49,11 +49,16 @@ public class DimensionsHandler : MonoBehaviour, IOriginProvider
 
     public float GetX()
     {
-        return _originX;
+        return _originHandler.GetX();
     }
 
     public float GetY()
     {
-        return _originY;
+        return _originHandler.GetY();
+    }
+
+    public bool IsOriginChanging()
+    {
+        return _originHandler.IsOriginChanging();
     }
 }

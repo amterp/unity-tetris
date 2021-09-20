@@ -8,7 +8,7 @@ public class GameState : MonoBehaviour
     public event Action GameStartedEvent;
     public event Action GameOverEvent;
 
-    private bool _isGameInProgress;
+    private bool _isGameInProgress = true;
     private bool _isGameOver;
 
     public void SetGameStarted()

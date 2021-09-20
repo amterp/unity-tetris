@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 118155880}
   - component: {fileID: 118155881}
   - component: {fileID: 118155884}
+  - component: {fileID: 118155891}
   - component: {fileID: 118155886}
   - component: {fileID: 118155887}
   - component: {fileID: 118155888}
@@ -377,6 +378,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914be4b1210000440b6d602225506258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &118155891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118155879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4cd88684c042e74b979cc262840062a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameOverShiftX: -4
+  _gameOverShiftTimeSeconds: 1
 --- !u!1 &159912816
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +571,7 @@ GameObject:
   - component: {fileID: 746378013}
   - component: {fileID: 746378012}
   - component: {fileID: 746378011}
+  - component: {fileID: 746378017}
   - component: {fileID: 746378016}
   m_Layer: 5
   m_Name: BlockPreviewArea
@@ -684,6 +700,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85dbfe2620c0097478a9294de13c4d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &746378017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746378010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4cd88684c042e74b979cc262840062a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameOverShiftX: 0
+  _gameOverShiftTimeSeconds: -1
 --- !u!1 &973595138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,6 +1108,7 @@ GameObject:
   - component: {fileID: 1431951735}
   - component: {fileID: 1431951734}
   - component: {fileID: 1431951733}
+  - component: {fileID: 1431951737}
   - component: {fileID: 1431951732}
   m_Layer: 5
   m_Name: BlockStashArea
@@ -1192,6 +1223,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1431951737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431951731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4cd88684c042e74b979cc262840062a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameOverShiftX: 0
+  _gameOverShiftTimeSeconds: -1
 --- !u!1 &1468719601
 GameObject:
   m_ObjectHideFlags: 0

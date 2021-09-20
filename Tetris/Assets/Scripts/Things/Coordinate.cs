@@ -13,7 +13,7 @@ public class Coordinate
     private IOriginProvider _originProvider;
 
     public static Coordinate operator +(Coordinate a) => a;
-    public static Coordinate operator -(Coordinate a) => new Coordinate(-a.X, -a.Y, a._originProvider);
+    public static Coordinate operator -(Coordinate a) => new Coordinate(-a.X, -a.Y, a._originProvider, a.Transform);
     public static Coordinate operator +(Coordinate a, Coordinate b) => new Coordinate(a.X + b.X, a.Y + b.Y, a._originProvider);
     public static Coordinate operator -(Coordinate a, Coordinate b) => a + (-b);
 
@@ -22,6 +22,8 @@ public class Coordinate
         X = x;
         Y = y;
         _originProvider = originProvider;
+        originProvider.OriginChangeEvent += OnOriginChange;
+        Debug.Log(originProvider);
         Transform = null;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }
@@ -31,6 +33,8 @@ public class Coordinate
         X = x;
         Y = y;
         _originProvider = originProvider;
+        originProvider.OriginChangeEvent += OnOriginChange;
+        Debug.Log(originProvider);
         Transform = transform;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }
@@ -47,7 +51,7 @@ public class Coordinate
 
     public Coordinate Shifted(int xShift, int yShift)
     {
-        return new Coordinate(X + xShift, Y + yShift, _originProvider);
+        return new Coordinate(X + xShift, Y + yShift, _originProvider, Transform);
     }
 
     /**
@@ -65,7 +69,7 @@ public class Coordinate
     public Coordinate Rotated(Vector2 pivotOffset)
     {
         return new Coordinate(Mathf.RoundToInt(-Y + pivotOffset.y + pivotOffset.x),
-            -Mathf.RoundToInt(-X + pivotOffset.x - pivotOffset.y), _originProvider);
+            -Mathf.RoundToInt(-X + pivotOffset.x - pivotOffset.y), _originProvider, Transform);
     }
 
     public void UpdateTransform()
@@ -94,5 +98,10 @@ public class Coordinate
     public override int GetHashCode()
     {
         return (X, Y).GetHashCode();
+    }
+
+    private void OnOriginChange()
+    {
+        UpdateTransform();
     }
 }

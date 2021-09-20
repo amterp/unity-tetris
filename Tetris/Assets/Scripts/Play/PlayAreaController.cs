@@ -9,6 +9,7 @@ public class PlayAreaController : MonoBehaviour
     private const float NOT_USED = -1f;
     private const bool SUCCEEDED = true;
     private const bool FAILED = false;
+    private readonly IOriginProvider NOT_USED_ORIGIN_PROVIDER = new ZeroOriginProvider();
 
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
@@ -238,8 +239,8 @@ public class PlayAreaController : MonoBehaviour
         if (yShiftAmount == 0) return;
         for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
         {
-            Coordinate coordinateToMove = new Coordinate(columnIndex, rowIndex, NOT_USED, NOT_USED);
-            Coordinate coordinateToMoveTo = new Coordinate(columnIndex, rowIndex + yShiftAmount, NOT_USED, NOT_USED);
+            Coordinate coordinateToMove = new Coordinate(columnIndex, rowIndex, NOT_USED_ORIGIN_PROVIDER);
+            Coordinate coordinateToMoveTo = new Coordinate(columnIndex, rowIndex + yShiftAmount, NOT_USED_ORIGIN_PROVIDER);
             _cellsByCoordinate[coordinateToMoveTo.AsVector2Int()].BlockPiece = _cellsByCoordinate[coordinateToMove.AsVector2Int()].BlockPiece;
             _cellsByCoordinate[coordinateToMove.AsVector2Int()].BlockPiece = null;
         }

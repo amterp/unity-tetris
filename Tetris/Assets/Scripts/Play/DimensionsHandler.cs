@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DimensionsHandler : MonoBehaviour
+public class DimensionsHandler : MonoBehaviour, IOriginProvider
 {
     public int NumberXCells;
     public int NumberYCells;
@@ -16,7 +16,6 @@ public class DimensionsHandler : MonoBehaviour
 
     void Awake()
     {
-
         XScale = transform.localScale.x / NumberXCells;
         YScale = transform.localScale.y / NumberYCells;
         CellScale = new Vector3(XScale, YScale);
@@ -37,7 +36,7 @@ public class DimensionsHandler : MonoBehaviour
 
     public Coordinate CreateCoordinate(int x, int y, Transform underlyingTransform)
     {
-        Coordinate coordinate = new Coordinate(x, y, _originX, _originY, underlyingTransform);
+        Coordinate coordinate = new Coordinate(x, y, this, underlyingTransform);
         coordinate.UpdateTransform();
         return coordinate;
     }
@@ -46,5 +45,15 @@ public class DimensionsHandler : MonoBehaviour
     {
         int halfwayXCoordinate = NumberXCells / 2;
         return halfwayXCoordinate - Mathf.CeilToInt(blockType.BoundingBoxDimensions().x / 2f);
+    }
+
+    public float GetX()
+    {
+        return _originX;
+    }
+
+    public float GetY()
+    {
+        return _originY;
     }
 }

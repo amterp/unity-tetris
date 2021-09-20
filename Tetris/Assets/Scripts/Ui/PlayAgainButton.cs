@@ -4,47 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Hidee))]
 public class PlayAgainButton : MonoBehaviour
 {
-
-    private Button _button;
-    private UiHider _uiHider;
-    private GameState _gameState;
+    private Hidee _hidee;
 
     void Awake()
     {
-        _button = GetComponent<Button>();
-        _uiHider = GetComponent<UiHider>();
-        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
-        _gameState.GameOverEvent += OnGameOver;
-    }
-
-    void Start()
-    {
-        Disable();
-    }
-
-    public void OnButtonClick()
-    {
-        Disable();
-        _gameState.SetGameStarted();
+        _hidee = GetComponent<Hidee>();
+        GoUtil.FindGameState().GameOverEvent += OnGameOver;
     }
 
     private void OnGameOver()
     {
-        Enable();
-        _uiHider.Unhide(gameObject);
-    }
-
-    private void Disable()
-    {
-        _button.interactable = false;
-        _uiHider.Hide(gameObject);
-    }
-
-    private void Enable()
-    {
-        _button.interactable = true;
-        _uiHider.Unhide(gameObject);
+        _hidee.Unhide();
     }
 }

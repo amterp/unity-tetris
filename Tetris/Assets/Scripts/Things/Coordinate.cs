@@ -9,31 +9,28 @@ public class Coordinate
     public int Y { get; private set; }
     public Transform? Transform { get; private set; }
 
-    private float _originX;
-    private float _originY;
     private Vector2Int _vector2IntRepresentation;
+    private IOriginProvider _originProvider;
 
     public static Coordinate operator +(Coordinate a) => a;
-    public static Coordinate operator -(Coordinate a) => new Coordinate(-a.X, -a.Y, a._originX, a._originY);
-    public static Coordinate operator +(Coordinate a, Coordinate b) => new Coordinate(a.X + b.X, a.Y + b.Y, a._originX, a._originY);
+    public static Coordinate operator -(Coordinate a) => new Coordinate(-a.X, -a.Y, a._originProvider);
+    public static Coordinate operator +(Coordinate a, Coordinate b) => new Coordinate(a.X + b.X, a.Y + b.Y, a._originProvider);
     public static Coordinate operator -(Coordinate a, Coordinate b) => a + (-b);
 
-    public Coordinate(int x, int y, float originX, float originY)
+    public Coordinate(int x, int y, IOriginProvider originProvider)
     {
         X = x;
         Y = y;
-        _originX = originX;
-        _originY = originY;
+        _originProvider = originProvider;
         Transform = null;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }
 
-    public Coordinate(int x, int y, float originX, float originY, Transform transform)
+    public Coordinate(int x, int y, IOriginProvider originProvider, Transform transform)
     {
         X = x;
         Y = y;
-        _originX = originX;
-        _originY = originY;
+        _originProvider = originProvider;
         Transform = transform;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }
@@ -50,7 +47,7 @@ public class Coordinate
 
     public Coordinate Shifted(int xShift, int yShift)
     {
-        return new Coordinate(X + xShift, Y + yShift, _originX, _originY);
+        return new Coordinate(X + xShift, Y + yShift, _originProvider);
     }
 
     /**
@@ -68,13 +65,13 @@ public class Coordinate
     public Coordinate Rotated(Vector2 pivotOffset)
     {
         return new Coordinate(Mathf.RoundToInt(-Y + pivotOffset.y + pivotOffset.x),
-            -Mathf.RoundToInt(-X + pivotOffset.x - pivotOffset.y), _originX, _originY);
+            -Mathf.RoundToInt(-X + pivotOffset.x - pivotOffset.y), _originProvider);
     }
 
     public void UpdateTransform()
     {
         if (Transform == null) return;
-        Transform.position = new Vector3(_originX + X * Transform.localScale.x, _originY - Y * Transform.localScale.y);
+        Transform.position = new Vector3(_originProvider.GetX() + X * Transform.localScale.x, _originProvider.GetY() - Y * Transform.localScale.y);
     }
 
     public Vector2Int AsVector2Int()

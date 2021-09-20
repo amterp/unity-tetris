@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UiHider : MonoBehaviour
+public class Hider : MonoBehaviour
 {
-    public Transform DisabledUiTransform;
-
     private Dictionary<GameObject, Transform> _gameObjectsToOriginalParentTransforms;
 
     void Awake()
@@ -17,7 +15,7 @@ public class UiHider : MonoBehaviour
     {
         if (_gameObjectsToOriginalParentTransforms.ContainsKey(uiGameObjectToHide)) return;
         _gameObjectsToOriginalParentTransforms.Add(uiGameObjectToHide, uiGameObjectToHide.transform.parent);
-        uiGameObjectToHide.transform.SetParent(DisabledUiTransform);
+        uiGameObjectToHide.transform.SetParent(transform);
     }
 
     public void Unhide(GameObject uiGameObjectToUnhide)

@@ -38,10 +38,9 @@ public class PlayAreaController : MonoBehaviour
 
     public void AddBlock(Block currentBlock)
     {
-        MoveBlockUpIfInitialSpawnHasNoRoom(currentBlock);
-        int centerOffsetX = _dimensions.CalculateCenterOffsetX(currentBlock.BlockType);
-        BlockTransformation initialCenteringTransformation = currentBlock.CalculateTransformationForMovingToCoordinateX(centerOffsetX);
-        ShiftBlockWithoutEventTrigger(currentBlock, initialCenteringTransformation);
+        ShiftIntoInitialYPosition(currentBlock);
+        ShiftIntoInitialXPosition(currentBlock);
+
         AddBlockToPlayArea(currentBlock);
         UpdateBlockGhost(currentBlock);
     }
@@ -97,24 +96,6 @@ public class PlayAreaController : MonoBehaviour
         return previousTestedTransformation;
     }
 
-    private void MoveBlockUpIfInitialSpawnHasNoRoom(Block currentBlock)
-    {
-        if (RowIndexIsEmpty(1))
-        {
-            return;
-        }
-        else if (RowIndexIsEmpty(0))
-        {
-            MoveYSpawnBy(-1, currentBlock);
-            return;
-        }
-        else
-        {
-            MoveYSpawnBy(-2, currentBlock);
-            return;
-        }
-    }
-
     private void PerformShiftTransformation(Block currentBlock, BlockTransformation transformation)
     {
         if (!IsValidPlacement(transformation.Block, new List<Coordinate>(transformation.OldToNewCoordinates.Values)))
@@ -144,11 +125,11 @@ public class PlayAreaController : MonoBehaviour
 
     private void ShiftBlockWithEventTrigger(Block currentBlock, BlockTransformation blockTransformation)
     {
-        ShiftBlockWithoutEventTrigger(currentBlock, blockTransformation);
+        ShiftBlockIntoInitialSpawn(currentBlock, blockTransformation);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
-    private void ShiftBlockWithoutEventTrigger(Block currentBlock, BlockTransformation blockTransformation)
+    private void ShiftBlockIntoInitialSpawn(Block currentBlock, BlockTransformation blockTransformation)
     {
         currentBlock.PerformTransformation(blockTransformation);
         UpdateCellTable(blockTransformation);
@@ -297,6 +278,31 @@ public class PlayAreaController : MonoBehaviour
                 transformation.Block.PiecesByCoordinate[existingCoordinate];
             _ghostBlockCoordinates.Add(ghostCoordinate);
         }
+    }
+
+    private void ShiftIntoInitialYPosition(Block currentBlock)
+    {
+        BlockTransformation initialYTransformation;
+        if (RowIndexIsEmpty(1))
+        {
+            initialYTransformation = currentBlock.CalculateTransformationForMovingToCoordinateY(0);
+        }
+        else if (RowIndexIsEmpty(0))
+        {
+            initialYTransformation = currentBlock.CalculateTransformationForMovingToCoordinateY(-1);
+        }
+        else
+        {
+            initialYTransformation = currentBlock.CalculateTransformationForMovingToCoordinateY(-2);
+        }
+        ShiftBlockIntoInitialSpawn(currentBlock, initialYTransformation);
+    }
+
+    private void ShiftIntoInitialXPosition(Block currentBlock)
+    {
+        int centerOffsetX = _dimensions.CalculateCenterOffsetX(currentBlock.BlockType);
+        BlockTransformation initialCenteringTransformation = currentBlock.CalculateTransformationForMovingToCoordinateX(centerOffsetX);
+        ShiftBlockIntoInitialSpawn(currentBlock, initialCenteringTransformation);
     }
 
     private void OnGameStarted()

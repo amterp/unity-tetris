@@ -10,7 +10,7 @@ public class GameCell : MonoBehaviour
     public float GhostColorStrength = 0.3f;
 
     public Coordinate Coordinate { get; private set; }
-    public BlockPiece? BlockPiece { get { return _realBlockPiece; } set { _realBlockPiece = value; UpdateRender(); } }
+    public BlockPiece? BlockPiece { get { return _realBlockPiece; } set { _realBlockPiece = value; UpdateRender(); if (value == null) Debug.Log("made null"); } }
     public BlockPiece? GhostBlockPiece { get { return _ghostBlockPiece; } set { _ghostBlockPiece = value; UpdateRender(); } }
 
     private BlockPiece? _realBlockPiece;

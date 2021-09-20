@@ -23,7 +23,6 @@ public class Coordinate
         Y = y;
         _originProvider = originProvider;
         originProvider.OriginChangeEvent += OnOriginChange;
-        Debug.Log(originProvider);
         Transform = null;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }
@@ -34,7 +33,6 @@ public class Coordinate
         Y = y;
         _originProvider = originProvider;
         originProvider.OriginChangeEvent += OnOriginChange;
-        Debug.Log(originProvider);
         Transform = transform;
         _vector2IntRepresentation = new Vector2Int(x, y);
     }

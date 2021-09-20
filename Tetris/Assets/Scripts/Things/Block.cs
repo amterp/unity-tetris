@@ -68,6 +68,12 @@ public class Block
         return CalculateLinearTransformation(xCoordinate - currentPositionX, 0);
     }
 
+    public BlockTransformation CalculateTransformationForMovingToCoordinateY(int yCoordinate)
+    {
+        int currentPositionY = Mathf.RoundToInt(_pivotPosition.y - BlockType.PivotOffset().y);
+        return CalculateLinearTransformation(0, yCoordinate - currentPositionY);
+    }
+
     public void PerformRotationReset()
     {
         while (_rotationState != RotationState.Zero)

@@ -498,8 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5becb6d7122ba6a4a84dbf2f50a94f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Difficulty: 0.6
-  SpeedRampupFactor: 0.035
+  Difficulty: 0
+  SpeedRampupFactor: 0
 --- !u!114 &118155890
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class PlayAreaController : MonoBehaviour
 
     void Awake()
     {
+        GetComponent<SpriteRenderer>().enabled = false;
         _dimensions = GetComponent<DimensionsHandler>();
         _ghostBlockCoordinates = new List<Vector2Int>();
 

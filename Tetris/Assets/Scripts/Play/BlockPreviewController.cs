@@ -13,9 +13,13 @@ public class BlockPreviewController : MonoBehaviour
 
     void Awake()
     {
+        GetComponent<SpriteRenderer>().enabled = false;
         _blockSpawnerBuffer = GetComponent<BlockSpawnerBuffer>();
         _blockSpawnerBuffer.BufferUpdatedEvent += OnBufferUpdate;
         _dimensions = GetComponent<DimensionsHandler>();
+        GameState _gameState = GoUtil.FindGameState();
+        _gameState.GameStartedEvent += () => EnableGameCells();
+        _gameState.GameOverEvent += () => DisableGameCells();
     }
 
     void Start()
@@ -62,6 +66,22 @@ public class BlockPreviewController : MonoBehaviour
     {
         if (Initialized()) return;
         _cellsByCoordinate = GetComponent<AreaSetupper>().InitializeGameCells();
+    }
+
+    private void EnableGameCells()
+    {
+        ToggleGameCells(true);
+    }
+
+    private void DisableGameCells()
+    {
+        ToggleGameCells(false);
+    }
+
+    private void ToggleGameCells(bool enable)
+    {
+        Initialize();
+        new List<GameCell>(_cellsByCoordinate.Values).ForEach(gameCell => gameCell.gameObject.SetActive(enable));
     }
 
     private bool Initialized()

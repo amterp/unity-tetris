@@ -11,16 +11,20 @@ public class BlockStashController : MonoBehaviour
     private DimensionsHandler _dimensions;
     private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private Block? _stashedBlock;
+    private bool _initialized;
 
     void Awake()
     {
+        GetComponent<SpriteRenderer>().enabled = false;
         _areaSetupper = GetComponent<AreaSetupper>();
         _dimensions = GetComponent<DimensionsHandler>();
+        GameState _gameState = GoUtil.FindGameState();
+        _gameState.GameStartedEvent += () => EnableGameCells();
+        _gameState.GameOverEvent += () => DisableGameCells();
     }
-
     void Start()
     {
-        _cellsByCoordinate = _areaSetupper.InitializeGameCells();
+        Initialize();
     }
 
     public Block? SwapBlock(Block currentBlock)
@@ -60,5 +64,28 @@ public class BlockStashController : MonoBehaviour
 
         new List<Coordinate>(placementTransformation.OldToNewCoordinates.Values)
             .ForEach(coordinate => _cellsByCoordinate[coordinate.AsVector2Int()].BlockPiece = placementTransformation.Block.PiecesByCoordinate[coordinate]);
+    }
+
+    private void EnableGameCells()
+    {
+        ToggleGameCells(true);
+    }
+
+    private void DisableGameCells()
+    {
+        ToggleGameCells(false);
+    }
+
+    private void ToggleGameCells(bool enable)
+    {
+        Initialize();
+        new List<GameCell>(_cellsByCoordinate.Values).ForEach(gameCell => gameCell.gameObject.SetActive(enable));
+    }
+
+    private void Initialize()
+    {
+        if (_initialized) return;
+        _cellsByCoordinate = _areaSetupper.InitializeGameCells();
+        _initialized = true;
     }
 }

@@ -9,6 +9,8 @@ public class PlayAreaController : MonoBehaviour
     private const float NOT_USED = -1f;
     private const bool SUCCEEDED = true;
     private const bool FAILED = false;
+    private const bool CLEAR_EXISTING_CELLS = true;
+    private const bool DO_NOT_CLEAR_EXISTING_CELLS = false;
     private readonly IOriginProvider NOT_USED_ORIGIN_PROVIDER = new ZeroOriginProvider();
 
     public event Action<BlockTransformation> BlockTransformationEvent;
@@ -67,7 +69,7 @@ public class PlayAreaController : MonoBehaviour
             currentBlock.CalculateRotatedCoordinates(rotationDirection, coordinates => IsValidPlacement(currentBlock, coordinates));
         if (!blockTransformation.IsValid()) return;
         currentBlock.PerformTransformation(blockTransformation);
-        UpdateCellTable(blockTransformation);
+        UpdateCellTable(blockTransformation, true);
         UpdateBlockGhost(currentBlock);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
@@ -125,37 +127,47 @@ public class PlayAreaController : MonoBehaviour
 
     private void ShiftBlockWithEventTrigger(Block currentBlock, BlockTransformation blockTransformation)
     {
-        ShiftBlockIntoInitialSpawn(currentBlock, blockTransformation);
+        currentBlock.PerformTransformation(blockTransformation);
+        UpdateCellTable(blockTransformation, CLEAR_EXISTING_CELLS);
+        UpdateBlockGhost(currentBlock);
         EventUtil.SafeInvoke(BlockTransformationEvent, blockTransformation);
     }
 
-    private void ShiftBlockIntoInitialSpawn(Block currentBlock, BlockTransformation blockTransformation)
+    private void ShiftBlockWithoutEventTriggerAndNoExistingCellClear(Block currentBlock, BlockTransformation blockTransformation)
     {
         currentBlock.PerformTransformation(blockTransformation);
-        UpdateCellTable(blockTransformation);
+        UpdateCellTable(blockTransformation, DO_NOT_CLEAR_EXISTING_CELLS);
         UpdateBlockGhost(currentBlock);
     }
 
-    private void UpdateCellTable(BlockTransformation blockTransformation)
+    private void ShiftBlockWithoutEventTriggerAndClearExistingCells(Block currentBlock, BlockTransformation blockTransformation)
+    {
+        currentBlock.PerformTransformation(blockTransformation);
+        UpdateCellTable(blockTransformation, CLEAR_EXISTING_CELLS);
+        UpdateBlockGhost(currentBlock);
+    }
+
+    private void UpdateCellTable(BlockTransformation blockTransformation, bool clearOldCells)
     {
         Dictionary<Coordinate, Coordinate> oldToNewCoordinateDict = blockTransformation.OldToNewCoordinates;
         Dictionary<Coordinate, BlockPiece> piecesByNewCoordinate = new Dictionary<Coordinate, BlockPiece>();
 
         foreach (Coordinate oldCoordinate in oldToNewCoordinateDict.Keys)
         {
+            Coordinate newCoordinate = oldToNewCoordinateDict[oldCoordinate];
             GameCell gameCellAtOldCoordinate = _cellsByCoordinate[oldCoordinate.AsVector2Int()];
             BlockPiece? blockPieceToMove = gameCellAtOldCoordinate.BlockPiece;
 
-            if (blockPieceToMove != null)
+            if (blockPieceToMove != null && clearOldCells)
             {
                 gameCellAtOldCoordinate.BlockPiece = null;
             }
             else
             {
-                blockPieceToMove = blockTransformation.Block.PiecesByCoordinate[oldToNewCoordinateDict[oldCoordinate]];
+                blockPieceToMove = blockTransformation.Block.PiecesByCoordinate[newCoordinate];
             }
 
-            piecesByNewCoordinate.Add(oldToNewCoordinateDict[oldCoordinate], blockPieceToMove);
+            piecesByNewCoordinate.Add(newCoordinate, blockPieceToMove);
         }
 
         foreach (Coordinate newCoordinate in piecesByNewCoordinate.Keys)
@@ -295,14 +307,14 @@ public class PlayAreaController : MonoBehaviour
         {
             initialYTransformation = currentBlock.CalculateTransformationForMovingToCoordinateY(-2);
         }
-        ShiftBlockIntoInitialSpawn(currentBlock, initialYTransformation);
+        ShiftBlockWithoutEventTriggerAndNoExistingCellClear(currentBlock, initialYTransformation);
     }
 
     private void ShiftIntoInitialXPosition(Block currentBlock)
     {
         int centerOffsetX = _dimensions.CalculateCenterOffsetX(currentBlock.BlockType);
         BlockTransformation initialCenteringTransformation = currentBlock.CalculateTransformationForMovingToCoordinateX(centerOffsetX);
-        ShiftBlockIntoInitialSpawn(currentBlock, initialCenteringTransformation);
+        ShiftBlockWithoutEventTriggerAndClearExistingCells(currentBlock, initialCenteringTransformation);
     }
 
     private void OnGameStarted()

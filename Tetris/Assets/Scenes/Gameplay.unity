@@ -1302,7 +1302,6 @@ GameObject:
   - component: {fileID: 1416856449}
   - component: {fileID: 1416856448}
   - component: {fileID: 1416856451}
-  - component: {fileID: 1416856452}
   m_Layer: 5
   m_Name: TimePanel
   m_TagString: Untagged
@@ -1395,20 +1394,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitionTimeSeconds: 0.6
   _targetPos: {x: 40, y: -100}
---- !u!114 &1416856452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416856446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08e02325f057d2245942b46755e52312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _transitionTimeSeconds: 0.6
-  _targetPos: {x: 0, y: 0}
 --- !u!1 &1431951731
 GameObject:
   m_ObjectHideFlags: 0

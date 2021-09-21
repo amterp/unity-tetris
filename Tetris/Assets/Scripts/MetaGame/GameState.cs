@@ -1,17 +1,37 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameState : MonoBehaviour
+public class GameState : MonoBehaviour, IGameState
 {
+    private static GameState Instance;
 
     public event Action GameStartedEvent;
     public event Action GameOverEvent;
     public event Action<bool> GamePausedEvent;
 
+    public float Difficulty { get { return _difficulty; } set { _difficulty = value; } }
+
     private bool _isGameInProgress = true;
     private bool _isGameOver;
     private bool _isGamePaused = false;
+
+    [Range(0, 1f)]
+    [SerializeField] private float _difficulty;
+
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(this);
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
 
     public void SetGameStarted()
     {
@@ -50,6 +70,7 @@ public class GameState : MonoBehaviour
     {
         _isGameInProgress = true;
         _isGameOver = false;
+        _isGamePaused = false;
         Debug.Log("Game started.");
     }
 
@@ -64,5 +85,12 @@ public class GameState : MonoBehaviour
     {
         _isGamePaused = !_isGamePaused;
         Debug.Log(_isGamePaused ? "Game paused." : "Game unpaused");
+    }
+
+    private void OnSceneUnloaded(Scene ignored1)
+    {
+        GameStartedEvent = null;
+        GameOverEvent = null;
+        GamePausedEvent = null;
     }
 }

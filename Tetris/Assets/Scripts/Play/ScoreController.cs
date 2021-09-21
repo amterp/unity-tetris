@@ -11,16 +11,16 @@ public class ScoreController : MonoBehaviour
     public float CurrentPoints { get; private set; }
 
     [SerializeField] private PlayAreaController _playAreaController;
-    [SerializeField] private DifficultyController _difficultyController;
     [SerializeField] private TextMeshProUGUI _scoreText;
 
+    private GameState _gameState;
     private float _gameStartTimeSeconds;
 
     void Awake()
     {
         _playAreaController.RowsCompletedEvent += OnRowsCompleted;
-        GameState gameState = GoUtil.FindGameState();
-        gameState.GameStartedEvent += OnGameStarted;
+        _gameState = GoUtil.FindGameState();
+        _gameState.GameStartedEvent += OnGameStarted;
     }
 
     private void OnGameStarted()
@@ -55,6 +55,6 @@ public class ScoreController : MonoBehaviour
     private float CalculateTimeScoreMultiplier()
     {
         float gameTimeSeconds = Time.time - _gameStartTimeSeconds;
-        return Mathf.Pow(gameTimeSeconds, _difficultyController.Difficulty + 1) / SCORE_SCALER;
+        return Mathf.Pow(gameTimeSeconds, _gameState.Difficulty + 1) / SCORE_SCALER;
     }
 }

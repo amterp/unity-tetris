@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 6978648}
   - component: {fileID: 6978647}
   - component: {fileID: 6978646}
+  - component: {fileID: 6978650}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -219,6 +220,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 6978650}
+        m_TargetAssemblyTypeName: DifficultySetter, Scripts
+        m_MethodName: SetDifficulty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 6978646}
         m_TargetAssemblyTypeName: SceneSwitcher, Scripts
         m_MethodName: SwitchToScene
@@ -269,6 +282,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6978644}
   m_CullTransparentMesh: 1
+--- !u!114 &6978650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e18a14e45ebcd4fa5ded4bece88a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _difficultySlider: {fileID: 505477416}
 --- !u!1 &75069983
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &80837786
 GameObject:
@@ -3681,7 +3707,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565367174
 GameObject:
@@ -4245,7 +4271,7 @@ RectTransform:
   - {fileID: 166782675}
   - {fileID: 1066230134}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4658,3 +4684,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127052071}
   m_CullTransparentMesh: 1
+--- !u!1001 &6161176195710773097
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6161176195705967828, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_Name
+      value: GameController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967828, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161176195705967831, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f2f24679ff881784b91ff91ae7df54e7, type: 3}

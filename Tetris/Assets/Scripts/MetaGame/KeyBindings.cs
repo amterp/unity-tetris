@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class KeyBindingsChecker
 {
+
+    public static bool InputEscape()
+    {
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
+
     public static bool InputRight()
     {
         return Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);

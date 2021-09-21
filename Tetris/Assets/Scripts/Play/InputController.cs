@@ -17,7 +17,7 @@ public class InputController : MonoBehaviour
 
     void Awake()
     {
-        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+        _gameState = GoUtil.FindGameState();
         _blockController = GetComponent<BlockController>();
         _previousFrameDirection = null;
         _nextMovementTimeSeconds = IMMEDIATELY;
@@ -31,10 +31,22 @@ public class InputController : MonoBehaviour
 
     private void RunPlayerInput()
     {
+        RunPlayerPauseToggling();
+
+        if (_gameState.IsPaused()) return;
+
         RunPlayerStashing();
         RunInstantPlace();
         RunPlayerTranslation();
         RunPlayerRotation();
+    }
+
+    private void RunPlayerPauseToggling()
+    {
+        if (KeyBindingsChecker.InputEscape())
+        {
+            _gameState.ToggleGamePaused();
+        }
     }
 
     private void RunPlayerStashing()

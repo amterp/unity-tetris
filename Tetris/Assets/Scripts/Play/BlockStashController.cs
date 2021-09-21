@@ -19,9 +19,10 @@ public class BlockStashController : MonoBehaviour
         _areaSetupper = GetComponent<AreaSetupper>();
         _dimensions = GetComponent<DimensionsHandler>();
         GameState _gameState = GoUtil.FindGameState();
-        _gameState.GameStartedEvent += () => EnableGameCells();
+        _gameState.GameStartedEvent += OnGameStarted;
         _gameState.GameOverEvent += () => DisableGameCells();
     }
+
     void Start()
     {
         Initialize();
@@ -35,6 +36,13 @@ public class BlockStashController : MonoBehaviour
         UpdateStashArea();
 
         return blockToGiveBack;
+    }
+
+    private void OnGameStarted()
+    {
+        Initialize();
+        ClearArea();
+        EnableGameCells();
     }
 
     private void UpdateStashArea()

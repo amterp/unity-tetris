@@ -13,12 +13,13 @@ public class GameState : MonoBehaviour, IGameState
 
     public float Difficulty { get { return _difficulty; } set { _difficulty = value; } }
 
+    [Range(0, 1f)]
+    [SerializeField] private float _difficulty;
+
     private bool _isGameInProgress = true;
     private bool _isGameOver;
     private bool _isGamePaused = false;
-
-    [Range(0, 1f)]
-    [SerializeField] private float _difficulty;
+    private HighScoreManager _highScoreManager;
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class GameState : MonoBehaviour, IGameState
         Instance = this;
         DontDestroyOnLoad(this);
         SceneManager.sceneUnloaded += OnSceneUnloaded;
+        _highScoreManager = HighScoreManager.Create();
     }
 
     public void SetGameStarted()
@@ -64,6 +66,11 @@ public class GameState : MonoBehaviour, IGameState
     public bool IsPaused()
     {
         return _isGamePaused;
+    }
+
+    public void SaveScore(HighScoreInfo highScoreInfo)
+    {
+        _highScoreManager.Save(highScoreInfo);
     }
 
     private void OnGameStarted()

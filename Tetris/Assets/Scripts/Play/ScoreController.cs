@@ -8,7 +8,7 @@ public class ScoreController : MonoBehaviour
 {
     private const float SCORE_SCALER = 50f;
 
-    public float CurrentPoints { get; private set; }
+    public double CurrentPoints { get; private set; }
 
     [SerializeField] private PlayAreaController _playAreaController;
     [SerializeField] private TextMeshProUGUI _scoreText;
@@ -21,6 +21,7 @@ public class ScoreController : MonoBehaviour
         _playAreaController.RowsCompletedEvent += OnRowsCompleted;
         _gameState = GoUtil.FindGameState();
         _gameState.GameStartedEvent += OnGameStarted;
+        _gameState.GameOverEvent += OnGameOver;
     }
 
     private void OnGameStarted()
@@ -29,17 +30,22 @@ public class ScoreController : MonoBehaviour
         UpdatePoints(0);
     }
 
+    private void OnGameOver()
+    {
+        _gameState.SaveScore(new HighScoreInfo("Alex" + DateTimeOffset.Now.ToUnixTimeSeconds(), CurrentPoints, _gameState.Difficulty));
+    }
+
     private void OnRowsCompleted(int numRowsCompleted)
     {
         ScoreRowCompletions(numRowsCompleted);
     }
 
-    private void AddPoints(float pointsToAdd)
+    private void AddPoints(double pointsToAdd)
     {
         UpdatePoints(CurrentPoints + pointsToAdd);
     }
 
-    private void UpdatePoints(float newPoints)
+    private void UpdatePoints(double newPoints)
     {
         CurrentPoints = newPoints;
         _scoreText.text = CurrentPoints.ToString("N0");

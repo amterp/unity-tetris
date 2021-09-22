@@ -701,7 +701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameOverShiftX: -3
-  _gameOverShiftTimeSeconds: 0.6
+  _gameOverShiftTimeSeconds: 0.8
+  _easingType: 2
 --- !u!1 &159912816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,6 +1614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOverShiftX: 0
   _gameOverShiftTimeSeconds: -1
+  _easingType: 1
 --- !u!1 &890182160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,7 +1853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e02325f057d2245942b46755e52312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionTimeSeconds: 0.6
+  _transitionTimeSeconds: 0.8
+  _easingType: 2
   _targetPos: {x: 40, y: -155}
 --- !u!1 &1007267731
 GameObject:
@@ -2462,7 +2465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e02325f057d2245942b46755e52312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionTimeSeconds: 0.6
+  _transitionTimeSeconds: 0.8
+  _easingType: 2
   _targetPos: {x: 40, y: -100}
 --- !u!1 &1431951731
 GameObject:
@@ -2605,6 +2609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOverShiftX: 0
   _gameOverShiftTimeSeconds: -1
+  _easingType: 1
 --- !u!1 &1460971250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2735,7 +2740,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hider: {fileID: 89297398}
   _beginHidden: 1
-  _unhideDelaySeconds: 0.6
+  _unhideDelaySeconds: 0.8
 --- !u!114 &1468719604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3474,7 +3479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hider: {fileID: 89297398}
   _beginHidden: 1
-  _unhideDelaySeconds: 0.6
+  _unhideDelaySeconds: 0.8
 --- !u!114 &1988042401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3804,7 +3809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hider: {fileID: 89297398}
   _beginHidden: 1
-  _unhideDelaySeconds: 0.6
+  _unhideDelaySeconds: 0.8
 --- !u!114 &2092619561
 MonoBehaviour:
   m_ObjectHideFlags: 0

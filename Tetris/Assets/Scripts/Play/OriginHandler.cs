@@ -10,6 +10,8 @@ public class OriginHandler : MonoBehaviour, IOriginProvider
 
     [SerializeField] private float _gameOverShiftX = -4;
     [SerializeField] private float _gameOverShiftTimeSeconds = 1f;
+    [SerializeField] private EasingType _easingType = EasingType.InOutSine;
+
     private float _originX;
     private float _originY;
     private DimensionsHandler _dimensionsHandler;
@@ -72,7 +74,8 @@ public class OriginHandler : MonoBehaviour, IOriginProvider
     private Vector2 CalculateGameOverOrigin()
     {
         float elapsedTimeSeconds = Time.time - _secondGameEnded;
-        return new Vector2(Mathf.Lerp(_originX, _originX + _gameOverShiftX, elapsedTimeSeconds / _gameOverShiftTimeSeconds), _originY);
+        float lerpFraction = _easingType.Apply(elapsedTimeSeconds / _gameOverShiftTimeSeconds);
+        return new Vector2(Mathf.Lerp(_originX, _originX + _gameOverShiftX, lerpFraction), _originY);
     }
 
     public bool IsOriginChanging()

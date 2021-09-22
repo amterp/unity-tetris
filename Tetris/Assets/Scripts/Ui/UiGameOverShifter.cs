@@ -7,8 +7,10 @@ using UnityEngine;
 public class UiGameOverShifter : MonoBehaviour
 {
 
-    [SerializeField] private float _transitionTimeSeconds;
+    [SerializeField] private float _transitionTimeSeconds = 1f;
+    [SerializeField] private EasingType _easingType = EasingType.InOutSine;
     [SerializeField] private Vector2 _targetPos;
+
     private RectTransform _rectTransform;
     private Vector2 _originalPos;
 
@@ -40,9 +42,14 @@ public class UiGameOverShifter : MonoBehaviour
         {
             float elapsedTimeSeconds = (Time.time - startTimeSeconds);
             float lerpFraction = elapsedTimeSeconds / _transitionTimeSeconds;
-            Vector2 lerpedPosition = Vector2.Lerp(_originalPos, _targetPos, lerpFraction);
+            float smoothedLerpFraction = _easingType.Apply(lerpFraction);
+
+            Vector2 lerpedPosition = Vector2.Lerp(_originalPos, _targetPos, smoothedLerpFraction);
+
             _rectTransform.anchoredPosition = lerpedPosition;
             yield return new WaitForEndOfFrame();
         }
+
+        _rectTransform.anchoredPosition = _targetPos;
     }
 }

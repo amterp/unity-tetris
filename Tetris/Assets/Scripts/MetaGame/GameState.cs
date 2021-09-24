@@ -10,6 +10,7 @@ public class GameState : MonoBehaviour, IGameState
     public event Action GameStartedEvent;
     public event Action GameOverEvent;
     public event Action<bool> GamePausedEvent;
+    public event Action<HighScoreInfo> NewHighScoreInfoEvent;
 
     public float Difficulty { get { return _difficulty; } set { _difficulty = value; } }
 
@@ -71,6 +72,12 @@ public class GameState : MonoBehaviour, IGameState
     public void SaveScore(HighScoreInfo highScoreInfo)
     {
         _highScoreManager.Save(highScoreInfo);
+        EventUtil.SafeInvoke(NewHighScoreInfoEvent, highScoreInfo);
+    }
+
+    public List<HighScoreInfo> GetHighScores()
+    {
+        return _highScoreManager.GetHighScores();
     }
 
     private void OnGameStarted()
@@ -99,5 +106,6 @@ public class GameState : MonoBehaviour, IGameState
         GameStartedEvent = null;
         GameOverEvent = null;
         GamePausedEvent = null;
+        NewHighScoreInfoEvent = null;
     }
 }

@@ -24,6 +24,11 @@ public class HighScoreManager
         _highScores.Add(highScoreInfo);
     }
 
+    public List<HighScoreInfo> GetHighScores()
+    {
+        return new List<HighScoreInfo>(_highScores);
+    }
+
     private static List<HighScoreInfo> LoadHighScores()
     {
         // todo actually load once persistent. Also, use a HighScoreInfoDto to decouple the API from the backend implementation.

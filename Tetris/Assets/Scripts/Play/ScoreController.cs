@@ -21,18 +21,12 @@ public class ScoreController : MonoBehaviour
         _playAreaController.RowsCompletedEvent += OnRowsCompleted;
         _gameState = GoUtil.FindGameState();
         _gameState.GameStartedEvent += OnGameStarted;
-        _gameState.GameOverEvent += OnGameOver;
     }
 
     private void OnGameStarted()
     {
         _gameStartTimeSeconds = Time.time;
         UpdatePoints(0);
-    }
-
-    private void OnGameOver()
-    {
-        _gameState.SaveScore(new HighScoreInfo("Alex" + DateTimeOffset.Now.ToUnixTimeSeconds(), CurrentPoints, _gameState.Difficulty));
     }
 
     private void OnRowsCompleted(int numRowsCompleted)

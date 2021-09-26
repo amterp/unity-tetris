@@ -5,33 +5,25 @@ using UnityEngine;
 
 public class HighScoreManager
 {
-    private readonly List<HighScoreInfo> _highScores;
+    private readonly SaveManager _saveManager;
 
-    public static HighScoreManager Create()
+    public HighScoreManager(SaveManager saveManager)
     {
-        List<HighScoreInfo> loadedHighScores = LoadHighScores();
-        return new HighScoreManager(loadedHighScores);
-    }
-
-    private HighScoreManager(List<HighScoreInfo> highScores)
-    {
-        this._highScores = highScores;
+        _saveManager = saveManager;
     }
 
     public void Save(HighScoreInfo highScoreInfo)
     {
-        Debug.Log($"Saving #{_highScores.Count + 1}: " + highScoreInfo);
-        _highScores.Add(highScoreInfo);
+        SaveData saveData = _saveManager.SaveData;
+        List<HighScoreInfo> highScores = saveData.HighScores;
+        highScores.Add(highScoreInfo);
+        saveData.HighScores = highScores;
+
+        _saveManager.Save();
     }
 
     public List<HighScoreInfo> GetHighScores()
     {
-        return new List<HighScoreInfo>(_highScores);
-    }
-
-    private static List<HighScoreInfo> LoadHighScores()
-    {
-        // todo actually load once persistent. Also, use a HighScoreInfoDto to decouple the API from the backend implementation.
-        return new List<HighScoreInfo>();
+        return _saveManager.SaveData.HighScores;
     }
 }

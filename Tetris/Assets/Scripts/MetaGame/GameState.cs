@@ -33,7 +33,9 @@ public class GameState : MonoBehaviour, IGameState
         Instance = this;
         DontDestroyOnLoad(this);
         SceneManager.sceneUnloaded += OnSceneUnloaded;
-        _highScoreManager = HighScoreManager.Create();
+
+        SaveManager saveManager = SaveManager.CreateAndLoad();
+        _highScoreManager = new HighScoreManager(saveManager);
     }
 
     public void SetGameStarted()

@@ -1,22 +1,27 @@
 using System;
 
-public readonly struct HighScoreInfo
+public struct HighScoreInfo
 {
     public HighScoreInfo(string playerName, double score, float difficulty)
+        : this(playerName, score, difficulty, DateTimeOffset.Now.ToUnixTimeMilliseconds())
+    {
+    }
+
+    public HighScoreInfo(string playerName, double score, float difficulty, long timestampMillis)
     {
         PlayerName = playerName;
         Score = score;
         Difficulty = difficulty;
-        TimestampMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        TimestampMillis = timestampMillis;
     }
 
-    public string PlayerName { get; }
-    public double Score { get; }
-    public float Difficulty { get; }
-    public long TimestampMillis { get; }
+    public string PlayerName;
+    public double Score;
+    public float Difficulty;
+    public long TimestampMillis;
 
     public override string ToString()
     {
-        return $"<PlayerName: {PlayerName}, Score: {Score}, Difficulty: {Difficulty}, TimestampMillis: {TimestampMillis}>";
+        return $"{typeof(HighScoreInfo).Name}<PlayerName: {PlayerName}, Score: {Score}, Difficulty: {Difficulty}, TimestampMillis: {TimestampMillis}>";
     }
 }

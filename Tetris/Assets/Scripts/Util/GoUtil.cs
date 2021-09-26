@@ -7,4 +7,9 @@ public static class GoUtil
     {
         return GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
     }
+
+    public static SettingsManager FindSettingsManager()
+    {
+        return GameObject.FindGameObjectWithTag("GameController").GetComponent<SettingsManager>();
+    }
 }

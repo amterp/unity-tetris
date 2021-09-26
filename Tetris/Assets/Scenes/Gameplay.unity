@@ -2800,6 +2800,7 @@ GameObject:
   - component: {fileID: 1168750895}
   - component: {fileID: 1168750894}
   - component: {fileID: 1168750897}
+  - component: {fileID: 1168750898}
   m_Layer: 5
   m_Name: HighScoreView
   m_TagString: Untagged
@@ -2906,6 +2907,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bdbc17fe77449c45818035e2b330c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1168750898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168750892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a2fbf19e571c84980248571d694800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _contentParent: {fileID: 32602357}
@@ -3126,7 +3139,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 101407142}
   m_HandleRect: {fileID: 101407141}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0.9999994
   m_Size: 0.84286577
   m_NumberOfSteps: 0
   m_OnValueChanged:

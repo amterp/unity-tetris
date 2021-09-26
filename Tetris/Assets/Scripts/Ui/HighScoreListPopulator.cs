@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class HighScoreList : MonoBehaviour
+public class HighScoreListPopulator : MonoBehaviour
 {
+
     private const int TOTAL_ENTRY_LENGTH = 26;
 
     [SerializeField] private Transform _contentParent;
@@ -16,21 +17,9 @@ public class HighScoreList : MonoBehaviour
     void Awake()
     {
         _gameState = GoUtil.FindGameState();
-        _gameState.GameOverEvent += OnGameOver;
-        _gameState.NewHighScoreInfoEvent += OnNewHighScoreEntry;
     }
 
-    private void OnGameOver()
-    {
-        RepopulateEntries();
-    }
-
-    private void OnNewHighScoreEntry(HighScoreInfo ignoredHighScoreInfo)
-    {
-        RepopulateEntries();
-    }
-
-    private void RepopulateEntries()
+    public void RepopulateEntries()
     {
         ClearExistingEntries();
         PopulateEntries();

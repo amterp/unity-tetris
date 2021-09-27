@@ -8,17 +8,35 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
 {
     private const string MASTER_VOLUME_PARAM_NAME = "MasterVolume";
 
-    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private AudioMixer _mixer;
+
+    private FullScreenMode _screenMode;
+
+    void Start()
+    {
+        SetScreenMode(FullScreenMode.FullScreenWindow);
+    }
 
     public void SetMasterVolume(float volume)
     {
-        mixer.SetFloat(MASTER_VOLUME_PARAM_NAME, volume);
+        _mixer.SetFloat(MASTER_VOLUME_PARAM_NAME, volume);
     }
 
     public float GetMasterVolume()
     {
         float volume;
-        mixer.GetFloat(MASTER_VOLUME_PARAM_NAME, out volume);
+        _mixer.GetFloat(MASTER_VOLUME_PARAM_NAME, out volume);
         return volume;
+    }
+
+    public void SetScreenMode(FullScreenMode screenMode)
+    {
+        _screenMode = screenMode;
+        Screen.fullScreenMode = screenMode;
+    }
+
+    public FullScreenMode GetScreenMode()
+    {
+        return _screenMode;
     }
 }

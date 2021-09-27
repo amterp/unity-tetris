@@ -11,6 +11,7 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
     [SerializeField] private AudioMixer _mixer;
 
     private FullScreenMode _screenMode;
+    private Resolution _resolution;
 
     void Start()
     {
@@ -38,5 +39,16 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
     public FullScreenMode GetScreenMode()
     {
         return _screenMode;
+    }
+
+    public Resolution GetResolution()
+    {
+        return _resolution;
+    }
+
+    public void SetResolution(Resolution resolution)
+    {
+        _resolution = resolution;
+        Screen.SetResolution(_resolution.width, _resolution.height, Screen.fullScreenMode);
     }
 }

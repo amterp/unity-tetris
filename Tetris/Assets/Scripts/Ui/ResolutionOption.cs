@@ -25,6 +25,7 @@ public class ResolutionOption : MonoBehaviour
         dropdown.ClearOptions();
 
         Array.Sort(_resolutions, (r1, r2) => -r1.width.CompareTo(r2.width));
+        _resolutions.Where(resolution => resolution.refreshRate == Screen.currentResolution.refreshRate);
 
         List<string> options = new List<string>();
         int currentResolutionIndex = -1;

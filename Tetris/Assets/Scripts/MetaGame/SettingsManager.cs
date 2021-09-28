@@ -12,15 +12,26 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
 
     private FullScreenMode _screenMode;
     private Resolution _resolution;
+    private SettingsSaveManager _settingsSaveManager;
+
+    void Awake()
+    {
+        _screenMode = FullScreenMode.FullScreenWindow;
+        _resolution = Screen.currentResolution;
+        _settingsSaveManager = new SettingsSaveManager();
+    }
 
     void Start()
     {
-        SetScreenMode(FullScreenMode.FullScreenWindow);
+        SetMasterVolume(_settingsSaveManager.LoadMasterVolume(GetMasterVolume()));
+        SetScreenMode(_settingsSaveManager.LoadScreenMode(GetScreenMode()));
+        SetResolution(_settingsSaveManager.LoadResolution(GetResolution()));
     }
 
     public void SetMasterVolume(float volume)
     {
         _mixer.SetFloat(MASTER_VOLUME_PARAM_NAME, volume);
+        _settingsSaveManager.SaveMasterVolume(volume);
     }
 
     public float GetMasterVolume()
@@ -34,6 +45,7 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
     {
         _screenMode = screenMode;
         Screen.fullScreenMode = screenMode;
+        _settingsSaveManager.SaveScreenMode(screenMode);
     }
 
     public FullScreenMode GetScreenMode()
@@ -41,14 +53,15 @@ public class SettingsManager : MonoBehaviour, ISettingsManager
         return _screenMode;
     }
 
-    public Resolution GetResolution()
-    {
-        return _resolution;
-    }
-
     public void SetResolution(Resolution resolution)
     {
         _resolution = resolution;
-        Screen.SetResolution(_resolution.width, _resolution.height, Screen.fullScreenMode);
+        Screen.SetResolution(_resolution.width, _resolution.height, _screenMode);
+        _settingsSaveManager.SaveResolution(resolution);
+    }
+
+    public Resolution GetResolution()
+    {
+        return _resolution;
     }
 }

@@ -1046,7 +1046,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.18066926, g: 0.24096158, b: 0.26415092, a: 1}
+  m_Color: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3149,8 +3149,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 101407142}
   m_HandleRect: {fileID: 101407141}
   m_Direction: 2
-  m_Value: 1.0000012
-  m_Size: 0.8428657
+  m_Value: 1.0000006
+  m_Size: 0.84286577
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -12,4 +12,9 @@ public static class GoUtil
     {
         return GameObject.FindGameObjectWithTag("GameController").GetComponent<SettingsManager>();
     }
+
+    public static AudioManager FindAudioManager()
+    {
+        return GameObject.FindGameObjectWithTag("GameController").transform.GetChild(0).GetComponent<AudioManager>();
+    }
 }

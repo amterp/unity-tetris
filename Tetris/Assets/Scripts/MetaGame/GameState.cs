@@ -11,6 +11,7 @@ public class GameState : MonoBehaviour, IGameState
     public event Action GameOverEvent;
     public event Action<bool> GamePausedEvent;
     public event Action<HighScoreInfo> NewHighScoreInfoEvent;
+    public event Action<TetrisScene> SceneSwitchEvent;
 
     public float Difficulty { get { return _difficulty; } set { _difficulty = value; } }
 
@@ -32,7 +33,6 @@ public class GameState : MonoBehaviour, IGameState
 
         Instance = this;
         DontDestroyOnLoad(this);
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
         SaveManager saveManager = SaveManager.CreateAndLoad();
         _highScoreManager = new HighScoreManager(saveManager);
@@ -82,6 +82,18 @@ public class GameState : MonoBehaviour, IGameState
         return _highScoreManager.GetHighScores();
     }
 
+    public void SwitchToScene(TetrisScene scene)
+    {
+        EventUtil.SafeInvoke(SceneSwitchEvent, scene);
+
+        GameStartedEvent = null;
+        GameOverEvent = null;
+        GamePausedEvent = null;
+        NewHighScoreInfoEvent = null;
+
+        SceneManager.LoadScene(scene.Name());
+    }
+
     private void OnGameStarted()
     {
         _isGameInProgress = true;
@@ -101,13 +113,5 @@ public class GameState : MonoBehaviour, IGameState
     {
         _isGamePaused = !_isGamePaused;
         Debug.Log(_isGamePaused ? "Game paused." : "Game unpaused");
-    }
-
-    private void OnSceneUnloaded(Scene ignored1)
-    {
-        GameStartedEvent = null;
-        GameOverEvent = null;
-        GamePausedEvent = null;
-        NewHighScoreInfoEvent = null;
     }
 }

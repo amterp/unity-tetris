@@ -21,6 +21,7 @@ public class PlayAreaController : MonoBehaviour
     private DimensionsHandler _dimensions;
     private List<Vector2Int> _ghostBlockCoordinates;
     private GameState _gameState;
+    private AudioManager _audioManager;
 
     void Awake()
     {
@@ -30,6 +31,8 @@ public class PlayAreaController : MonoBehaviour
 
         _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
         _gameState.GameStartedEvent += OnGameStarted;
+
+        _audioManager = GoUtil.FindAudioManager();
     }
 
     void Start()
@@ -182,6 +185,7 @@ public class PlayAreaController : MonoBehaviour
         CheckRowCompletion();
         CheckGameOver();
         EventUtil.SafeInvoke(BlockPlacedEvent);
+        _audioManager.Play(SoundEnum.BlockPlacementBeep);
     }
 
     private void CheckGameOver()

@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 6978647}
   - component: {fileID: 6978646}
   - component: {fileID: 6978650}
+  - component: {fileID: 6978651}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -251,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99f2ff99dda28f4b8d3e9d118080c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tetrisScene: 1
 --- !u!114 &6978647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,16 +309,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6978646}
-        m_TargetAssemblyTypeName: SceneSwitcher, Scripts
-        m_MethodName: SwitchToScene
-        m_Mode: 5
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Gameplay
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &6978648
@@ -370,6 +372,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _difficultySlider: {fileID: 505477416}
+--- !u!114 &6978651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &47192287
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +414,7 @@ GameObject:
   - component: {fileID: 47192291}
   - component: {fileID: 47192290}
   - component: {fileID: 47192289}
+  - component: {fileID: 47192293}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -480,6 +512,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &47192291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +562,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47192287}
   m_CullTransparentMesh: 1
+--- !u!114 &47192293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47192287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &50363306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -975,6 +1048,7 @@ GameObject:
   - component: {fileID: 105499408}
   - component: {fileID: 105499407}
   - component: {fileID: 105499410}
+  - component: {fileID: 105499411}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -1058,6 +1132,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &105499408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,6 +1196,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuToEnable: {fileID: 503715067}
   menuToDisable: {fileID: 1755162369}
+--- !u!114 &105499411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105499405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &114370283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3291,6 +3406,7 @@ GameObject:
   - component: {fileID: 567653662}
   - component: {fileID: 567653661}
   - component: {fileID: 567653660}
+  - component: {fileID: 567653664}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -3388,6 +3504,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &567653662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3426,6 +3554,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567653658}
   m_CullTransparentMesh: 1
+--- !u!114 &567653664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567653658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &572216964
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,6 +3596,7 @@ GameObject:
   - component: {fileID: 572216968}
   - component: {fileID: 572216967}
   - component: {fileID: 572216966}
+  - component: {fileID: 572216970}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -3536,6 +3694,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &572216968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3574,6 +3744,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572216964}
   m_CullTransparentMesh: 1
+--- !u!114 &572216970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572216964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &603598892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3721,6 +3920,7 @@ GameObject:
   - component: {fileID: 650282987}
   - component: {fileID: 650282986}
   - component: {fileID: 650282985}
+  - component: {fileID: 650282989}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -3816,6 +4016,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &650282987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3854,6 +4066,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650282983}
   m_CullTransparentMesh: 1
+--- !u!114 &650282989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650282983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &709743007
 GameObject:
   m_ObjectHideFlags: 0
@@ -4074,6 +4315,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05802cb616974b74c942084442d78599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &743684341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3793353916108143788, guid: 7c8daf09e96402740a8c5eef103a9337, type: 3}
+  m_PrefabInstance: {fileID: 743684339}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435b05a09ed902f43b6f29012d8363b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &752845012
@@ -5166,6 +5418,7 @@ GameObject:
   - component: {fileID: 1097737920}
   - component: {fileID: 1097737919}
   - component: {fileID: 1097737918}
+  - component: {fileID: 1097737922}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -5263,6 +5516,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1097737920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5301,6 +5566,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1097737916}
   m_CullTransparentMesh: 1
+--- !u!114 &1097737922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097737916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1125721359
 GameObject:
   m_ObjectHideFlags: 0
@@ -5886,6 +6180,7 @@ GameObject:
   - component: {fileID: 1176187153}
   - component: {fileID: 1176187152}
   - component: {fileID: 1176187151}
+  - component: {fileID: 1176187155}
   m_Layer: 5
   m_Name: HowToPlayButton
   m_TagString: Untagged
@@ -5983,6 +6278,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1176187153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6021,6 +6328,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176187149}
   m_CullTransparentMesh: 1
+--- !u!114 &1176187155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176187149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1185445521
 GameObject:
   m_ObjectHideFlags: 0
@@ -7475,6 +7811,7 @@ GameObject:
   - component: {fileID: 1573658808}
   - component: {fileID: 1573658807}
   - component: {fileID: 1573658806}
+  - component: {fileID: 1573658810}
   m_Layer: 5
   m_Name: AboutButton
   m_TagString: Untagged
@@ -7572,6 +7909,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1573658808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7610,6 +7959,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573658804}
   m_CullTransparentMesh: 1
+--- !u!114 &1573658810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573658804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1575916316
 GameObject:
   m_ObjectHideFlags: 0
@@ -7920,6 +8298,7 @@ GameObject:
   - component: {fileID: 1679481363}
   - component: {fileID: 1679481362}
   - component: {fileID: 1679481361}
+  - component: {fileID: 1679481365}
   m_Layer: 5
   m_Name: HighScoresButton
   m_TagString: Untagged
@@ -8017,6 +8396,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1826694846}
         m_TargetAssemblyTypeName: HighScoreListPopulator, Scripts
         m_MethodName: RepopulateEntries
@@ -8067,6 +8458,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679481359}
   m_CullTransparentMesh: 1
+--- !u!114 &1679481365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679481359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1688196090
 GameObject:
   m_ObjectHideFlags: 0
@@ -8896,6 +9316,7 @@ GameObject:
   - component: {fileID: 1898072851}
   - component: {fileID: 1898072850}
   - component: {fileID: 1898072849}
+  - component: {fileID: 1898072853}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -8993,6 +9414,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1898072851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9031,6 +9464,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898072847}
   m_CullTransparentMesh: 1
+--- !u!114 &1898072853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898072847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1900434427
 GameObject:
   m_ObjectHideFlags: 0
@@ -10089,6 +10551,7 @@ GameObject:
   - component: {fileID: 2127052075}
   - component: {fileID: 2127052074}
   - component: {fileID: 2127052073}
+  - component: {fileID: 2127052077}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -10186,6 +10649,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 743684341}
+        m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+        m_MethodName: PlayUiBeep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2127052075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10224,6 +10699,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127052071}
   m_CullTransparentMesh: 1
+--- !u!114 &2127052077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127052071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 743684341}
+          m_TargetAssemblyTypeName: AudioManagerProxy, Scripts
+          m_MethodName: PlayUiBeep
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &6161176195710773097
 PrefabInstance:
   m_ObjectHideFlags: 0

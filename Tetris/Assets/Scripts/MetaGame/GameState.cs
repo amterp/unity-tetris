@@ -12,6 +12,7 @@ public class GameState : MonoBehaviour, IGameState
     public event Action<bool> GamePausedEvent;
     public event Action<HighScoreInfo> NewHighScoreInfoEvent;
     public event Action<TetrisScene> SceneSwitchEvent;
+    public event Action<int> RowsCompletedEvent;
 
     public float Difficulty { get { return _difficulty; } set { _difficulty = value; } }
 
@@ -92,6 +93,11 @@ public class GameState : MonoBehaviour, IGameState
         NewHighScoreInfoEvent = null;
 
         SceneManager.LoadScene(scene.Name());
+    }
+
+    public void NotifyRowCompletion(int numRowsCompleted)
+    {
+        EventUtil.SafeInvoke(RowsCompletedEvent, numRowsCompleted);
     }
 
     private void OnGameStarted()

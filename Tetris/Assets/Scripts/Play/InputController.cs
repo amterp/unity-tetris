@@ -11,16 +11,22 @@ public class InputController : MonoBehaviour
     public float ShiftRepeatIntervalSeconds = 0.1f;
 
     private GameState _gameState;
+    private GameConstants _gameConstants;
     private BlockController _blockController;
     private ShiftDirection? _previousFrameDirection;
     private float _nextMovementTimeSeconds;
+    private bool _isAwaitingRowCompletion;
 
     void Awake()
     {
         _gameState = GoUtil.FindGameState();
+        _gameState.RowsCompletedEvent += (ignored) => StartCoroutine(AwaitRowCompletion());
+        _gameConstants = GoUtil.FindGameConstants();
+
         _blockController = GetComponent<BlockController>();
         _previousFrameDirection = null;
         _nextMovementTimeSeconds = IMMEDIATELY;
+        _isAwaitingRowCompletion = false;
     }
 
     void Update()
@@ -33,7 +39,7 @@ public class InputController : MonoBehaviour
     {
         RunPlayerPauseToggling();
 
-        if (_gameState.IsPaused()) return;
+        if (_gameState.IsPaused() || _isAwaitingRowCompletion) return;
 
         RunPlayerStashing();
         RunInstantPlace();
@@ -107,6 +113,13 @@ public class InputController : MonoBehaviour
             _blockController.TryRotate(RotationDirection.Clockwise);
             return;
         }
+    }
+
+    private IEnumerator AwaitRowCompletion()
+    {
+        _isAwaitingRowCompletion = true;
+        yield return new WaitForSeconds(_gameConstants.LineCompletionPauseSeconds);
+        _isAwaitingRowCompletion = false;
     }
 
     private static ShiftDirection? DetermineShiftDirection(bool inputtingRight, bool inputtingLeft, bool inputtingDown)

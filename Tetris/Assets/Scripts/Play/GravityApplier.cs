@@ -11,6 +11,7 @@ public class GravityApplier : MonoBehaviour
     private PlayAreaController _playAreaController;
     private float _nextTimeForMovement;
     private GameState _gameState;
+    private GameConstants _gameConstants;
     private DifficultyController _difficultyController;
 
     void Awake()
@@ -19,7 +20,8 @@ public class GravityApplier : MonoBehaviour
         _playAreaController = GetComponent<PlayAreaController>();
         _playAreaController.BlockTransformationEvent += OnBlockShifted;
         _playAreaController.BlockPlacedEvent += OnBlockPlaced;
-        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+        _gameState = GoUtil.FindGameState();
+        _gameConstants = GoUtil.FindGameConstants();
         _difficultyController = GetComponent<DifficultyController>();
 
         ResetTimer();
@@ -56,6 +58,7 @@ public class GravityApplier : MonoBehaviour
     private void OnBlockPlaced()
     {
         ResetTimer();
+        _nextTimeForMovement += _gameConstants.LineCompletionPauseSeconds;
     }
 
     private static bool DownShiftNotDueToWallKick(BlockTransformation blockTransformation)

@@ -10,7 +10,6 @@ public class ScoreController : MonoBehaviour
 
     public double CurrentPoints { get; private set; }
 
-    [SerializeField] private PlayAreaController _playAreaController;
     [SerializeField] private TextMeshProUGUI _scoreText;
 
     private GameState _gameState;
@@ -18,8 +17,8 @@ public class ScoreController : MonoBehaviour
 
     void Awake()
     {
-        _playAreaController.RowsCompletedEvent += OnRowsCompleted;
         _gameState = GoUtil.FindGameState();
+        _gameState.RowsCompletedEvent += OnRowsCompleted;
         _gameState.GameStartedEvent += OnGameStarted;
     }
 

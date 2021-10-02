@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(IBlockSpawner))]
 public class BlockController : MonoBehaviour
 {
 
@@ -12,9 +13,11 @@ public class BlockController : MonoBehaviour
     private IBlockSpawner _blockSpawner;
     private BlockStashController _blockStashController;
     private PlayAreaController _playAreaController;
-    private Block? _currentBlock;
     private GameState _gameState;
+    private GameConstants _gameConstants;
+    private Block? _currentBlock;
     private bool _isStashingAvailable;
+    private bool _isAwaitingRowCompletion;
 
     void Awake()
     {
@@ -25,8 +28,13 @@ public class BlockController : MonoBehaviour
 
         _blockStashController = BlockStashContainer.GetComponent<BlockStashController>();
 
-        _gameState = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameState>();
+        _gameState = GoUtil.FindGameState();
         _gameState.GameStartedEvent += OnGameStarted;
+        _gameState.RowsCompletedEvent += (ignored) => StartCoroutine(AwaitRowCompletion());
+
+        _gameConstants = GoUtil.FindGameConstants();
+
+        _isAwaitingRowCompletion = false;
     }
 
     public void TryMove(int xShift, int yShift)
@@ -76,6 +84,14 @@ public class BlockController : MonoBehaviour
         SpawnNewBlockIfGameInProgress();
     }
 
+    private IEnumerator AwaitRowCompletion()
+    {
+        _isAwaitingRowCompletion = true;
+        yield return new WaitForSeconds(_gameConstants.LineCompletionPauseSeconds);
+        _isAwaitingRowCompletion = false;
+        SpawnNewBlockIfGameInProgress();
+    }
+
     private void SpawnBlockIfNone()
     {
         if (_currentBlock != null) return;
@@ -84,7 +100,7 @@ public class BlockController : MonoBehaviour
 
     private void SpawnNewBlockIfGameInProgress()
     {
-        if (!_gameState.IsGameInProgress()) return;
+        if (!_gameState.IsGameInProgress() || _isAwaitingRowCompletion) return;
         _currentBlock = _blockSpawner.GetNextBlock();
         _playAreaController.AddBlock(_currentBlock);
     }

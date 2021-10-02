@@ -22,6 +22,20 @@ public static class Easing
         return -(Mathf.Cos(Mathf.PI * boundedX) - 1) / 2;
     }
 
+    /** https://easings.net/#easeInQuad */
+    public static float EaseInQuad(float x)
+    {
+        float boundedX = bound(x);
+        return boundedX * boundedX;
+    }
+
+    /** https://easings.net/#easeInCubic */
+    public static float EaseInCubic(float x)
+    {
+        float boundedX = bound(x);
+        return boundedX * boundedX * boundedX;
+    }
+
     private static float bound(float x)
     {
         return Mathf.Clamp(x, 0, 1);
@@ -33,6 +47,8 @@ public enum EasingType
     None,
     InSine,
     InOutSine,
+    InQuad,
+    InCubic,
 }
 
 public static class EasingTypeFunctions
@@ -47,6 +63,10 @@ public static class EasingTypeFunctions
                 return Easing.EaseInSine(x);
             case EasingType.InOutSine:
                 return Easing.EaseInOutSine(x);
+            case EasingType.InQuad:
+                return Easing.EaseInQuad(x);
+            case EasingType.InCubic:
+                return Easing.EaseInCubic(x);
             default:
                 throw new InvalidOperationException("Unknown EasingType: " + easingType);
         }

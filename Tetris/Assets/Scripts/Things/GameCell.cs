@@ -16,11 +16,13 @@ public class GameCell : MonoBehaviour
     private BlockPiece? _realBlockPiece;
     private BlockPiece? _ghostBlockPiece;
     private SpriteRenderer _spriteRenderer;
+    private GameConstants _gameConstants;
     private Color _defaultEmptyColor;
 
     void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _gameConstants = GoUtil.FindGameConstants();
         _defaultEmptyColor = _spriteRenderer.color;
     }
 
@@ -40,6 +42,29 @@ public class GameCell : MonoBehaviour
     public bool IsEmpty()
     {
         return BlockPiece == null;
+    }
+
+    public IEnumerator AnimateToWhite(float cellSpecificDurationSeconds)
+    {
+        float zeroGuardedDurationSeconds = cellSpecificDurationSeconds;
+
+        Color startingColor = _spriteRenderer.color;
+        float startingTimeSeconds = Time.time;
+        float stopTimeSeconds = startingTimeSeconds + zeroGuardedDurationSeconds;
+        while (Time.time <= stopTimeSeconds && BlockPiece != null)
+        {
+            float elapsedTimeSeconds = (Time.time - startingTimeSeconds);
+            float rawLerpFraction = elapsedTimeSeconds / zeroGuardedDurationSeconds;
+            float lerpFraction = Easing.EaseInQuad(rawLerpFraction);
+            _spriteRenderer.color = Color.Lerp(startingColor, Color.white, lerpFraction);
+            yield return new WaitForEndOfFrame();
+        }
+        _spriteRenderer.color = Color.white;
+
+        float overallRowCompletionSecondsRemaining = _gameConstants.LineCompletionPauseSeconds - zeroGuardedDurationSeconds;
+        yield return new WaitForSeconds(overallRowCompletionSecondsRemaining);
+
+        UpdateRender();
     }
 
     private void UpdateRender()

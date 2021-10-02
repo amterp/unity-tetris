@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,13 +16,13 @@ public class PlayAreaController : MonoBehaviour
 
     public event Action<BlockTransformation> BlockTransformationEvent;
     public event Action BlockPlacedEvent;
-    public event Action<int> RowsCompletedEvent;
 
     private Dictionary<Vector2Int, GameCell> _cellsByCoordinate;
     private DimensionsHandler _dimensions;
     private List<Vector2Int> _ghostBlockCoordinates;
     private GameState _gameState;
     private AudioManager _audioManager;
+    private GameConstants _gameConstants;
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class PlayAreaController : MonoBehaviour
         _gameState.GameStartedEvent += OnGameStarted;
 
         _audioManager = GoUtil.FindAudioManager();
+        _gameConstants = GoUtil.FindGameConstants();
     }
 
     void Start()
@@ -197,21 +199,27 @@ public class PlayAreaController : MonoBehaviour
     private void CheckRowCompletion()
     {
         int numRowsComplete = 0;
+        Dictionary<int, int> numRowsToShiftDownByRowIndex = new Dictionary<int, int>();
+        List<int> rowsToDelete = new List<int>();
         for (int rowIndex = _dimensions.NumberYCells - 1; rowIndex >= 0; rowIndex--)
         {
             if (RowComplete(rowIndex))
             {
-                DeleteRow(rowIndex);
+                rowsToDelete.Add(rowIndex);
                 numRowsComplete++;
             }
-            else
+            else if (numRowsComplete > 0)
             {
-                ShiftDownRow(rowIndex, numRowsComplete);
+                numRowsToShiftDownByRowIndex.Add(rowIndex, numRowsComplete);
             }
         }
-        if (numRowsComplete > 0) EventUtil.SafeInvoke(RowsCompletedEvent, numRowsComplete);
-    }
 
+        if (numRowsComplete > 0)
+        {
+            StartCoroutine(TriggerCompletionTasks(rowsToDelete, numRowsToShiftDownByRowIndex));
+            _gameState.NotifyRowCompletion(numRowsComplete);
+        }
+    }
     private bool RowComplete(int rowIndex)
     {
         for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
@@ -222,6 +230,36 @@ public class PlayAreaController : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private IEnumerator TriggerCompletionTasks(List<int> rowsToDelete, Dictionary<int, int> numRowsToShiftDownByRowIndex)
+    {
+        foreach (int rowIndexToDelete in rowsToDelete)
+        {
+            BeginAnimatingCompletion(rowIndexToDelete);
+        }
+
+        yield return new WaitForSeconds(_gameConstants.LineCompletionPauseSeconds);
+
+        foreach (int rowIndexToDelete in rowsToDelete)
+        {
+            DeleteRow(rowIndexToDelete);
+        }
+
+        foreach (int rowIndexToShiftDown in numRowsToShiftDownByRowIndex.Keys)
+        {
+            int numRowsToShiftDown = numRowsToShiftDownByRowIndex[rowIndexToShiftDown];
+            ShiftDownRow(rowIndexToShiftDown, numRowsToShiftDown);
+        }
+    }
+
+    private void BeginAnimatingCompletion(int rowIndex)
+    {
+        for (int columnIndex = 0; columnIndex < _dimensions.NumberXCells; columnIndex++)
+        {
+            float animationDurationSeconds = _gameConstants.CellCompletionSpacingSeconds * columnIndex + _gameConstants.InitialCompletionWaitSeconds;
+            StartCoroutine(_cellsByCoordinate[new Vector2Int(columnIndex, rowIndex)].AnimateToWhite(animationDurationSeconds));
+        }
     }
 
     private void DeleteRow(int rowIndex)

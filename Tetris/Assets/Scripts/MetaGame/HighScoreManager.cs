@@ -26,4 +26,11 @@ public class HighScoreManager
     {
         return _saveManager.SaveData.HighScores;
     }
+
+    public void DeleteHighScores()
+    {
+        Debug.Log("Deleting save data.");
+        _saveManager.SaveData.HighScores = new List<HighScoreInfo>();
+        _saveManager.Save();
+    }
 }

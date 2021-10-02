@@ -100,6 +100,11 @@ public class GameState : MonoBehaviour, IGameState
         EventUtil.SafeInvoke(RowsCompletedEvent, numRowsCompleted);
     }
 
+    public void DeleteHighScores()
+    {
+        _highScoreManager.DeleteHighScores();
+    }
+
     private void OnGameStarted()
     {
         _isGameInProgress = true;

@@ -10,4 +10,5 @@ public interface IGameState
     bool IsGameInProgress();
     bool IsGameOver();
     bool IsPaused();
+    void DeleteHighScores();
 }

@@ -41,4 +41,9 @@ public class GameStateProxy : MonoBehaviour, IGameState
     {
         return _gameState.IsPaused();
     }
+
+    public void DeleteHighScores()
+    {
+        _gameState.DeleteHighScores();
+    }
 }

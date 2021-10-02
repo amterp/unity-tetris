@@ -6,6 +6,8 @@ using UnityEngine;
 public class SettingsSaveManager
 {
     private const string MASTER_VOLUME_KEY = "MasterVolume";
+    private const string MUSIC_VOLUME_KEY = "MusicVolume";
+    private const string EFFECTS_VOLUME_KEY = "EffectsVolume";
     private const string SCREEN_MODE_KEY = "ScreenMode";
     private const string RESOLUTION_WIDTH_KEY = "ResolutionWidth";
     private const string RESOLUTION_HEIGHT_KEY = "ResolutionHeight";
@@ -14,6 +16,16 @@ public class SettingsSaveManager
     public float LoadMasterVolume(float defaultVolume)
     {
         return PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, defaultVolume);
+    }
+
+    public float LoadMusicVolume(float defaultVolume)
+    {
+        return PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, defaultVolume);
+    }
+
+    public float LoadEffectsVolume(float defaultVolume)
+    {
+        return PlayerPrefs.GetFloat(EFFECTS_VOLUME_KEY, defaultVolume);
     }
 
     public FullScreenMode LoadScreenMode(FullScreenMode defaultScreenMode)
@@ -33,6 +45,16 @@ public class SettingsSaveManager
     public void SaveMasterVolume(float volume)
     {
         PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, volume);
+    }
+
+    public void SaveMusicVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, volume);
+    }
+
+    public void SaveEffectsVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(EFFECTS_VOLUME_KEY, volume);
     }
 
     public void SaveScreenMode(FullScreenMode screenMode)

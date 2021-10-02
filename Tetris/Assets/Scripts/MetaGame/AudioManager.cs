@@ -7,12 +7,10 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private AudioMixerGroup _mixerGroup;
-    [SerializeField]
-    private Sound _music;
-    [SerializeField]
-    private Sound[] _sounds;
+    [SerializeField] private AudioMixerGroup _musicGroup;
+    [SerializeField] private AudioMixerGroup _effectsGroup;
+    [SerializeField] private Sound _music;
+    [SerializeField] private Sound[] _sounds;
 
     private Dictionary<SoundEnum, Sound> _soundsByEnum;
 
@@ -52,7 +50,7 @@ public class AudioManager : MonoBehaviour
             sound.Source = gameObject.AddComponent<AudioSource>();
             sound.Source.clip = sound.Clip;
             sound.Source.volume = sound.Volume;
-            sound.Source.outputAudioMixerGroup = _mixerGroup;
+            sound.Source.outputAudioMixerGroup = ResolveMixerGroup(sound.Channel);
             sound.Source.playOnAwake = false;
 
             if (_soundsByEnum.ContainsKey(sound.SoundEnum))
@@ -72,10 +70,20 @@ public class AudioManager : MonoBehaviour
         _music.Source = gameObject.AddComponent<AudioSource>();
         _music.Source.clip = _music.Clip;
         _music.Source.volume = _music.Volume;
-        _music.Source.outputAudioMixerGroup = _mixerGroup;
+        _music.Source.outputAudioMixerGroup = _musicGroup;
         _music.Source.playOnAwake = false;
         _music.Source.loop = true;
 
         RestartMusic();
+    }
+
+    private AudioMixerGroup ResolveMixerGroup(SoundChannel channel)
+    {
+        switch (channel)
+        {
+            case SoundChannel.Music: return _musicGroup;
+            case SoundChannel.Effects: return _effectsGroup;
+            default: throw new InvalidOperationException("Unknown sound channel: " + channel);
+        }
     }
 }
